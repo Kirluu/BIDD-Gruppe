@@ -1,0 +1,28 @@
+IF NOT EXISTS CREATE TABLE Person (
+
+id INT NOT NULL AUTO_INCREMENT,
+name VARCHAR(50) NOT NULL,
+birthdate DATETIME,
+deathdate DATETIME,
+gender BOOLEAN,
+height INT,
+PRIMARY KEY(id)
+
+);
+
+IF NOT EXISTS CREATE TABLE Production (
+
+id INT NOT NULL AUTO_INCREMENT,
+length DOUBLE,
+title VARCHAR(80),
+releaseDate DATETIME,
+country VARCHAR(50),
+language VARCHAR(50),
+imdbRanking DOUBLE,
+ageRating VARCHAR(4),
+genre VARCHAR(25),
+PRIMARY KEY (id)
+
+);
+
+IF NOT EXISTS CREATE TABLE 
