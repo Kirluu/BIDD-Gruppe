@@ -5,6 +5,5 @@ See the table below for the result of this relation search exhaustion.\\
 
 <<TABLE>>\\
 
-In the case the above table doesn't implicitly clarified that our database design is in Boyce Codd normal form we've listed a few discussion point.\\ 
-
-
+It doesn't make sense to go through any of the other tables, as pretty much all of them do not work independently, and are thus bound by their stored foreign keys being part of their primary key, making it trivial to look for possible candidate keys that could form functional dependencies.\\
+In the case the above table doesn't implicitly clarified that our database design is in Boyce Codd normal form we've listed a few discussion points.\\ 
