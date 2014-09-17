@@ -1,6 +1,11 @@
 \section{Analysis of DBMS design}
+In every single relation in our ERD, every single attribute is functionally dependent on the "id" attribute, as it alone ensures that there can be no absolute dublicates. Simultaneously we need to control, that when not considering the id attribute's existance, that there can be no two entries, where the only attribute taking them apart from each other is the id attribute.
+Therefore we will go through and identify all possible candidate keys for all our relations, making sure that there is not two candidate keys, involving the same attribute more than once (Again: Excluding id from this candidate key search). Associated assumptions that would have to be made for a candidate key to be valid, will be mentioned in a column of its own.
+See the table below for the result of this relation search exhaustion.\\
 
-Instead of going through every table in the SQL-Schema we have decided to discuss the areas that we believe could seem to interfere with the 'Boyce Codd' normal form.\\ 
+<<TABLE>>\\
+
+In the case the above table doesn't implicitly clarified that our database design is in Boyce Codd normal form we've listed a few discussion point.\\ 
 
 \subsection{Genre}
 The relationship between the tables GenreType and Production is done with the Genre relationship, which contains references to the aforementioned tables' primary keys, as foreign key constraints. This could seem redundant as a lot of GenreTypes will reoccur in the Genre table but the alternative, which is not having the "Genre" relationship, would force us to repeat genre names multiple times as well as not allowing us to look up the genre types that can be associated with a production. Having the relationship adds this possibility and replaces the duplication of genre names with id values.\\
@@ -9,5 +14,5 @@ The relationship between the tables GenreType and Production is done with the Ge
 It is possible that multiple attributes such as the 'country' attribute in the relation "Production" should be treated as we treated GenreType, but since it would involve the creation of several additional tables, which would exceed the constraints of the assignment(maximum 15 tables) we have decided to showcase GenreType as an example of optimizing the schema.\\
 
 \subsection{Inheritance}
-The combination of the relations; Production, Movie, Series (hereunder Season and Episode), contributes to avoid a major amount of redundancy, as the alternative of storing loads of information in each table would introduce. This is solved by containing all common data fields in the Production relation, and having the previously mentioned Movie and Series tables relate to a single entry in the Production relation. Following this, Season and Episode contain little to no additional information, albeit a single Episode will usually have an individual name, setting it apart from the other episodes produced within the series.
+The combination of the relations; Production, Movie, Series (hereunder Season and Episode), contributes to avoid a major amount of redundancy, as the alternative of storing loads of information in each table would introduce. This is solved by containing all common data fields in the Production relation, and having the previously mentioned Movie and Series tables relate to a single entry in the Production relation. Following this, Season and Episode contain little to none additional information, albeit a single Episode will usually have an individual name, setting it apart from the other episodes produced within the series.
 
