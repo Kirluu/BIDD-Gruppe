@@ -2,6 +2,5 @@
 /Assignments/Assignment 1/latex/*.aux
 /Assignments/Assignment 1/latex/*.gz
 /Assignments/Assignment 1/latex/*.log
-*.aux
-*.log
+/Assignments/Assignment 1/latex/.gz(busy)
 Assignments/Assignment 1/Thumbs.db
