@@ -3,7 +3,12 @@ In every single relation in our ERD, every single attribute is functionally depe
 Therefore we will go through and identify all possible candidate keys for all our relations, making sure that there is not two candidate keys, involving the same attribute more than once (Again: Excluding id from this candidate key search). Associated assumptions that would have to be made for a candidate key to be valid, will be mentioned in a column of its own.
 See the table below for the result of this relation search exhaustion.\\
 
-<<TABLE>>\\
+\input{P4Table}
 
-It doesn't make sense to go through any of the other tables, as pretty much all of them do not work independently, and are thus bound by their stored foreign keys being part of their primary key, making it trivial to look for possible candidate keys that could form functional dependencies.\\
-In the case the above table doesn't implicitly clarified that our database design is in Boyce Codd normal form we've listed a few discussion points.\\ 
+It doesn't make sense to go through any of the other tables, as pretty much all of them do not work independently, and are thus bound by their stored foreign keys being part of their primary key, making it trivial to look for possible candidate keys that could form functional dependencies.
+
+\subsection{Episode-table}\\\normalsize
+The Episode relation is worth taking a look at, as it is a table which nobody references towards. Aside from that, it does contain a few data attributes (title and number), along with containing a reference to the season in which the episode consists. This suggests that one would have to make the primary key (if not using an ID attribute) be a combination of all this data
+(\underline{season\_id, title, number}).\\
+You need to connect the season id, since otherwise you would assume that no episode would have the same title and sequence number in two different seasons of two different (or the same) series. While the key that combines these 3 attributes (including the foreign key) essentially does the trick, in making our Episode unique, we follow the standard of giving it an id, in the case of database expansion being required in the future, and needing to reference to a specific episode for one reason or another.
+This is also the explanation for any other case in the database, where a unique identifier in the table was not necessarily required, but was used in order to avoid duplication in tables referring to that table.
