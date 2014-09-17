@@ -20,27 +20,22 @@ CREATE TABLE IF NOT EXISTS Person (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS Contract (
+CREATE TABLE IF NOT EXISTS Role (
 	id INT AUTO_INCREMENT,
 	personId INT,
+	acting BOOLEAN NOT NULL,
+	roleName VARCHAR(25),
+	PRIMARY KEY (id, roleName),
+	FOREIGN KEY (personId) REFERENCES Person(id)
+);
+
+CREATE TABLE IF NOT EXISTS Contract (
+	id INT AUTO_INCREMENT,
+	roleId INT,
 	productionId INT,
 	PRIMARY KEY (id),
-	FOREIGN KEY (personId) REFERENCES Person(id),
+	FOREIGN KEY (roleId) REFERENCES Role(id),
 	FOREIGN KEY (productionId) REFERENCES Production(id)
-);
-
-CREATE TABLE IF NOT EXISTS Actor (
-	contractId INT,
-	characterName VARCHAR(50) NOT NULL,
-	PRIMARY KEY (contractId, characterName),
-	FOREIGN KEY (contractId) REFERENCES Contract(id)
-);
-
-CREATE TABLE IF NOT EXISTS Non_Actor (
-	contractId INT,
-	title VARCHAR(50) NOT NULL,
-	PRIMARY KEY (contractId, title),
-	FOREIGN KEY (contractId) REFERENCES Contract(id)
 );
 
 CREATE TABLE IF NOT EXISTS GenreType (
