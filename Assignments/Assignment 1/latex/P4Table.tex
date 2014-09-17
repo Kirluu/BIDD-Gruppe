@@ -4,9 +4,9 @@
 \hline
 \rowcolor[HTML]{C0C0C0} 
 \textbf{Relation} & \textbf{Functional Dependencies} & \textbf{(Related) Assumptions} \\ \hline
-\begin{tabular}[c]{@{}l@{}}Production\\ \textbf{attributes:}\\ \emph{AgeRating, Title,} \\ \emph{ReleaseDate, Country,} \\ \emph{Length, Language,}\\ \emph{IMDBRating}\end{tabular} & \begin{tabular}[c]{@{}l@{}}Title, ReleaseDate \rightarrow ...\\ Title, Length \rightarrow ...\end{tabular} & \begin{tabular}[c]{@{}l@{}}No 2 Productions with a sharing releasedate and title\\ No 2 Productions with the same length and title\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}l@{}}Production\\ \textbf{attributes:}\\ \emph{AgeRating, Title,} \\ \emph{ReleaseDate, Country,} \\ \emph{Length, Language,}\\ \emph{IMDBRating}\end{tabular} & \begin{tabular}[c]{@{}l@{}}Title, ReleaseDate \rightarrow \emph{All other attributes}\\ Title, Length \rightarrow \emph{All other attributes}\end{tabular} & \begin{tabular}[c]{@{}l@{}}No 2 Productions with a sharing releasedate and title\\ No 2 Productions with the same length and title\end{tabular} \\ \hline
 
-\begin{tabular}[c]{@{}l@{}}Person\\ \textbf{attributes:}\\ \emph{Name, Gender, BirthDate}\\ \emph{Height, DeathDate}\end{tabular} & Name, BirthDate \rightarrow ... & No 2 person share a name and a birthdate \\ \hline
+\begin{tabular}[c]{@{}l@{}}Person\\ \textbf{attributes:}\\ \emph{Name, Gender, BirthDate}\\ \emph{Height, DeathDate}\end{tabular} & Name, BirthDate \rightarrow \emph{All other attributes} & No 2 person share a name and a birthdate \\ \hline
 
 \end{tabular}
 }
