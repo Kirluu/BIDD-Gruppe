@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS Production (
 	releaseDate DATETIME,
 	country VARCHAR(50),
 	language VARCHAR(50),
-	imdbRanking DOUBLE,
+	imdbRating DOUBLE,
 	ageRating VARCHAR(4),
 	PRIMARY KEY (id)
 );
