@@ -1,28 +1,65 @@
-IF NOT EXISTS CREATE TABLE Person (
-
-id INT NOT NULL AUTO_INCREMENT,
-name VARCHAR(50) NOT NULL,
-birthdate DATETIME,
-deathdate DATETIME,
-gender BOOLEAN,
-height INT,
-PRIMARY KEY(id)
-
+CREATE TABLE IF NOT EXISTS Person (
+	id INT NOT NULL AUTO_INCREMENT,
+	name VARCHAR(50) NOT NULL,
+	birthdate DATETIME,
+	deathdate DATETIME,
+	gender BOOLEAN,
+	height INT,
+	PRIMARY KEY (id)
 );
 
-IF NOT EXISTS CREATE TABLE Production (
-
-id INT NOT NULL AUTO_INCREMENT,
-length DOUBLE,
-title VARCHAR(80),
-releaseDate DATETIME,
-country VARCHAR(50),
-language VARCHAR(50),
-imdbRanking DOUBLE,
-ageRating VARCHAR(4),
-genre VARCHAR(25),
-PRIMARY KEY (id)
-
+CREATE TABLE IF NOT EXISTS Contract (
+	id INT NOT NULL AUTO_INCREMENT,
+	personId INT NOT NULL,
+	productionId INT NOT NULL,
+	PRIMARY KEY (id)
 );
 
-IF NOT EXISTS CREATE TABLE 
+CREATE TABLE IF NOT EXISTS Actor (
+	contractId INT NOT NULL,
+	characterName VARCHAR(50),
+	PRIMARY KEY (contractId, characterName)
+);
+
+CREATE TABLE IF NOT EXISTS Non_Actor (
+	contractId INT NOT NULL,
+	title VARCHAR(50),
+	PRIMARY KEY (contractId, title)
+);
+
+CREATE TABLE IF NOT EXISTS Production (
+	id INT NOT NULL AUTO_INCREMENT,
+	length DOUBLE,
+	title VARCHAR(80),
+	releaseDate DATETIME,
+	country VARCHAR(50),
+	language VARCHAR(50),
+	imdbRanking DOUBLE,
+	ageRating VARCHAR(4),
+	genre VARCHAR(25),
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS Movie (
+	id INT NOT NULL AUTO_INCREMENT,
+	productionId INT NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS Series (
+	id INT NOT NULL AUTO_INCREMENT,
+	productionId INT NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS Season (
+	id INT NOT NULL AUTO_INCREMENT,
+	seriesId INT NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS Episode (
+	id INT NOT NULL AUTO_INCREMENT,
+	seasonId INT NOT NULL,
+	PRIMARY KEY (id)
+);
