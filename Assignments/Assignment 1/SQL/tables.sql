@@ -1,9 +1,8 @@
 CREATE TABLE IF NOT EXISTS Production (
 	id INT AUTO_INCREMENT,
 	length DOUBLE,
-	title VARCHAR(300) NOT NULL,
-	year INT,
-	releaseDate DATE,
+	title VARCHAR(80) NOT NULL,
+	releaseDate DATETIME,
 	country VARCHAR(50),
 	language VARCHAR(50),
 	imdbRating DOUBLE,
@@ -11,36 +10,31 @@ CREATE TABLE IF NOT EXISTS Production (
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS User (
-	id INT AUTO_INCREMENT,
-	name VARCHAR(20) NOT NULL,
-	PRIMARY KEY (id)
-);
-
-CREATE TABLE IF NOT EXISTS Rating (
-	productionId INT,
-	userId INT,
-	rating INT NOT NULL,
-	FOREIGN KEY(productionId) REFERENCES Production(id),
-	FOREIGN KEY(userId) REFERENCES User(id)
-);
-
 CREATE TABLE IF NOT EXISTS Person (
 	id INT AUTO_INCREMENT,
-	name VARCHAR(200) NOT NULL,
-	birthdate DATE,
-	deathdate DATE,
-	gender char(1),
+	name VARCHAR(50) NOT NULL,
+	birthdate DATETIME,
+	deathdate DATETIME,
+	gender BOOLEAN,
 	height INT,
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS Role (
+	id INT AUTO_INCREMENT,
 	personId INT,
+	acting BOOLEAN NOT NULL,
+	roleName VARCHAR(25),
+	PRIMARY KEY (id, roleName),
+	FOREIGN KEY (personId) REFERENCES Person(id)
+);
+
+CREATE TABLE IF NOT EXISTS Contract (
+	id INT AUTO_INCREMENT,
+	roleId INT,
 	productionId INT,
-	roleName VARCHAR(50),
-	PRIMARY KEY (personId, productionId, roleName),
-	FOREIGN KEY (personId) REFERENCES Person(id),
+	PRIMARY KEY (id),
+	FOREIGN KEY (roleId) REFERENCES Role(id),
 	FOREIGN KEY (productionId) REFERENCES Production(id)
 );
 
