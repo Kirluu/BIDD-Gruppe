@@ -628,44 +628,6 @@
     <node id="n32">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.attribute">
-          <y:Geometry height="40.0" width="80.0" x="1130.480495036022" y="725.76676573084"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="custom" textColor="#000000" underlinedText="true" visible="true" width="14.6640625" x="32.66796875" y="10.6494140625">id<y:LabelModel>
-              <y:SmartNodeLabelModel distance="4.0"/>
-            </y:LabelModel>
-            <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
-            </y:ModelParameter>
-          </y:NodeLabel>
-          <y:StyleProperties>
-            <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
-          </y:StyleProperties>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n33">
-      <data key="d6">
-        <y:GenericNode configuration="com.yworks.entityRelationship.attribute">
-          <y:Geometry height="40.0" width="80.0" x="1142.62696109743" y="789.7080300057819"/>
-          <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
-          <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="18.701171875" modelName="custom" textColor="#000000" visible="true" width="63.373046875" x="8.3134765625" y="10.6494140625">bool:Acting<y:LabelModel>
-              <y:SmartNodeLabelModel distance="4.0"/>
-            </y:LabelModel>
-            <y:ModelParameter>
-              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="0.0" nodeRatioX="0.0" nodeRatioY="0.0" offsetX="0.0" offsetY="0.0" upX="0.0" upY="-1.0"/>
-            </y:ModelParameter>
-          </y:NodeLabel>
-          <y:StyleProperties>
-            <y:Property class="java.lang.Boolean" name="y.view.ShadowNodePainter.SHADOW_PAINTING" value="true"/>
-          </y:StyleProperties>
-        </y:GenericNode>
-      </data>
-    </node>
-    <node id="n34">
-      <data key="d6">
-        <y:GenericNode configuration="com.yworks.entityRelationship.attribute">
           <y:Geometry height="40.0" width="80.0" x="1146.993583530997" y="840.4895102427773"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
@@ -682,7 +644,7 @@
         </y:GenericNode>
       </data>
     </node>
-    <node id="n35">
+    <node id="n33">
       <data key="d6">
         <y:ShapeNode>
           <y:Geometry height="49.50279569892473" width="66.36738692509869" x="769.3832427505973" y="1074.4783637681614"/>
@@ -699,7 +661,7 @@
         </y:ShapeNode>
       </data>
     </node>
-    <node id="n36">
+    <node id="n34">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.small_entity">
           <y:Geometry height="40.0" width="80.0" x="1288.7357171731883" y="764.4985960262261"/>
@@ -718,7 +680,7 @@
         </y:GenericNode>
       </data>
     </node>
-    <node id="n37">
+    <node id="n35">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.attribute">
           <y:Geometry height="40.0" width="80.0" x="1382.2551962371208" y="669.0608022202587"/>
@@ -737,7 +699,7 @@
         </y:GenericNode>
       </data>
     </node>
-    <node id="n38">
+    <node id="n36">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.relationship">
           <y:Geometry height="35.93075505013877" width="58.109090909090924" x="1299.6811717186426" y="934.1267542707271"/>
@@ -756,7 +718,7 @@
         </y:GenericNode>
       </data>
     </node>
-    <node id="n39">
+    <node id="n37">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.attribute">
           <y:Geometry height="40.0" width="80.0" x="1425.0910376355318" y="725.76676573084"/>
@@ -775,7 +737,7 @@
         </y:GenericNode>
       </data>
     </node>
-    <node id="n40">
+    <node id="n38">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.attribute">
           <y:Geometry height="40.0" width="80.0" x="1425.0910376355318" y="932.0921317957965"/>
@@ -794,7 +756,7 @@
         </y:GenericNode>
       </data>
     </node>
-    <node id="n41">
+    <node id="n39">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.attribute">
           <y:Geometry height="40.0" width="80.0" x="1236.5496475582486" y="1314.9263395098965"/>
@@ -1093,27 +1055,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e28" source="n31" target="n33">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="none"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e29" source="n31" target="n34">
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="none"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="e30" source="n15" target="n35">
+    <edge id="e28" source="n15" target="n33">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="-1.7098270089339849" ty="14.58405252452144"/>
@@ -1123,7 +1065,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e31" source="n11" target="n35">
+    <edge id="e29" source="n11" target="n33">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -1133,7 +1075,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e32" source="n35" target="n1">
+    <edge id="e30" source="n33" target="n1">
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="-1.1346007292752347" sy="14.58405252452144" tx="0.0" ty="0.0"/>
@@ -1143,7 +1085,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e33" source="n37" target="n36">
+    <edge id="e31" source="n35" target="n34">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -1154,7 +1096,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e34" source="n38" target="n36">
+    <edge id="e32" source="n36" target="n34">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -1165,7 +1107,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e35" source="n1" target="n38">
+    <edge id="e33" source="n1" target="n36">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -1176,7 +1118,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e36" source="n39" target="n36">
+    <edge id="e34" source="n37" target="n34">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -1187,7 +1129,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e37" source="n38" target="n40">
+    <edge id="e35" source="n36" target="n38">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -1198,7 +1140,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e38" source="n41" target="n1">
+    <edge id="e36" source="n39" target="n1">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -1209,7 +1151,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e39" source="n31" target="n1">
+    <edge id="e37" source="n31" target="n1">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
@@ -1220,7 +1162,7 @@
         </y:PolyLineEdge>
       </data>
     </edge>
-    <edge id="e40" source="n0" target="n31">
+    <edge id="e38" source="n0" target="n31">
       <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
