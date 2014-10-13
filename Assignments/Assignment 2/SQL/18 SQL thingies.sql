@@ -84,7 +84,7 @@ WHERE pro.year = 1994
 GROUP BY pro.language
 ORDER BY average DESC;
 
--- 11.
+-- 11. (not done)
 
 -- 12.
 SELECT pro.title, MAX(pro.imdbRating) AS rating
@@ -120,9 +120,22 @@ SELECT * FROM (
 WHERE s >= 10
 ORDER BY s DESC;
 
--- 16.
+-- 16. (not done)
+SELECT * FROM (
+	SELECT r1.id id1, r1.fromId, r1.toId, COUNT(*) c FROM Reference r1
+	INNER JOIN (SELECT r2.id id2, r2.fromId, r2.toId FROM Reference r2) s1 ON r1.toId = s1.fromId
+	INNER JOIN (SELECT r3.id id3, r3.fromId, r3.toId FROM Reference r3) s2 ON s1.toId = s2.fromId
+	GROUP BY r1.id) s3
+ORDER BY c DESC
+LIMIT 1
 
--- 17.
+SELECT r1.fromId FROM Reference r1
+INNER JOIN Reference r2 ON r1.toId = r2.fromId
+INNER JOIN Reference r3 ON r2.toId = r3.fromId;
+
+--(SELECT title FROM Production WHERE id = id1) title, 
+
+-- 17. (not done)
 SELECT *
 FROM(	SELECT pro.id prodId1, per.id perId1
 		FROM Production pro
@@ -136,4 +149,18 @@ WHERE actors.perId1 IN (SELECT per.id perId2
 						INNER JOIN Person per ON r.personId = per.id
 						WHERE r.roleName = 'director');
 
--- 18.
+-- 18. (not done)
+SELECT s1.gId, s2.gId, (s1.c + s2.c) combined
+FROM
+	(SELECT pro.id pId, g.genreTypeId gId, COUNT(*) c
+	FROM Production pro
+	INNER JOIN Genre g ON g.productionId = pro.id
+	GROUP BY gId) s1
+INNER JOIN
+	(SELECT pro.id pId, g.genreTypeId gId, COUNT(*) c
+	FROM Production pro
+	INNER JOIN Genre g ON g.productionId = pro.id
+	GROUP BY pro.id) s2
+ON s1.pId = s2.pId
+ORDER BY combined DESC
+LIMIT 1;
