@@ -11,6 +11,13 @@ CREATE TABLE IF NOT EXISTS Production (
 	PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS Reference (
+	fromId INT,
+	toId INT,
+	FOREIGN KEY(fromId) REFERENCES Production(id),
+	FOREIGN KEY(toId) REFERENCES Production(id)
+);
+
 CREATE TABLE IF NOT EXISTS User (
 	id INT AUTO_INCREMENT,
 	name VARCHAR(20) NOT NULL,

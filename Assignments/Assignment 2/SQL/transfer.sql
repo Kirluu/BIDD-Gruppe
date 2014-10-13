@@ -2,6 +2,10 @@ INSERT Production (id, title, year, releaseDate, country, language, imdbRating)
 SELECT id, title, year, releaseDate, country, language, imdbRank
 FROM imdb.movie;
 
+INSERT Reference (fromId, toId)
+SELECT fromId, toId
+FROM imdb.movieref;
+
 INSERT GenreType (genreName)
 SELECT DISTINCT(genre)
 FROM imdb.genre;
