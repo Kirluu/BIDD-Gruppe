@@ -3,116 +3,137 @@ SELECT COUNT(*)
 FROM Production
 WHERE language='Danish';
 
--- 2.
--- SELECT year
--- FROM Production, (
--- 	SELECT COUNT(*)
--- 	FROM Rating
--- 	WHERE productionId = Production.id) d
--- GROUP BY year;
-
--- 2.1
+-- 2
 SELECT year, COUNT(*)
 FROM Production
 INNER JOIN Rating ON id = productionId
 GROUP BY year;
 
--- 3.2
-SELECT *
-FROM Production production
-WHERE production.id IN   (SELECT *
-						  FROM Production pro
-						  INNER JOIN Role r ON pro.id = r.productionId
-						  INNER JOIN Person per ON r.personId = per.id
-						  WHERE per.name = 'John Travolta' OR per.name = 'Uma Thurman')
-AND production.id NOT IN (SELECT *
-						  FROM Production pro
-						  INNER JOIN Role r ON pro.id = r.productionId
-						  INNER JOIN Person per1, per2 ON r.personId = per1.id OR r.personId = per2.id
-						  WHERE per1.name='John Travolta' AND per2.name='Uma Thurman');
-
--- 3.3
-SELECT id AS productionId FROM Production
-INNER JOIN (
-	SELECT * FROM Role R1
-	LEFT JOIN Role R2 ON R1.personId = (SELECT id FROM Person WHERE name = 'John Travolta')
-	UNION
-	SELECT * FROM Role R1
-	RIGHT JOIN Role R2 ON R1.personId = (SELECT id FROM Person WHERE name = 'Uma Thurman')
-) d
-
-SELECT DISTINCT * FROM (
-	SELECT id AS pId, title FROM Production pro1
-	INNER JOIN (SELECT personId AS rPId, productionId AS rProId FROM Role r1) da ON pId = r1.productionId
-	INNER JOIN Person per1 ON r1.personId = per1.id
-	WHERE per1.name = 'John Travolta'
-) d1
+-- 3
+SELECT * FROM (
+	SELECT id, title FROM production
+	WHERE id IN (
+		SELECT id FROM production
+		WHERE id IN (
+			SELECT productionId FROM role
+			WHERE personId IN (
+				SELECT id FROM person WHERE name="John Travolta" OR name="Uma Thurman")))) s1
 WHERE NOT EXISTS (
-	SELECT * FROM (
-		SELECT * FROM Production pro2
-		INNER JOIN Role r2 ON pro2.id = r2.productionId
-		INNER JOIN Person per2 ON r2.personId = per2.id
-		WHERE per2.name = 'Uma Thurman'
-	) d2
-	WHERE d1.id = d2.id
-);
-
-SELECT E.id FROM Production E WHERE exists (
-  SELECT 1 FROM Person M WHERE E.id = M.ensembleid
-  AND M.instrument IN ('John Travolta', 'Uma Thurman')
-) AND not (
-  exists (
-    SELECT 1 FROM Person M WHERE E.id = M.ensembleid
-    AND M.instrument = 'John Travolta'
-  ) AND exists (
-    SELECT 1 FROM Person M WHERE E.id = M.ensembleid
-    AND M.instrument = 'Uma Thurman'
-  )
-);
+	SELECT * FROM (SELECT id FROM production 
+	WHERE id IN (
+		SELECT r1.productionId FROM role r1
+		INNER JOIN role r2 on r1.productionId = r2.productionId 
+		WHERE r1.personId=(
+			SELECT id FROM person WHERE name="John Travolta") AND r2.personId=(
+				SELECT id FROM person WHERE name="Uma Thurman"))) s2 
+	WHERE s1.id=s2.id);
 
 -- 4.
-SELECT COUNT(*)
-FROM Person p
-INNER JOIN Role r ON p.id = r.personId
-WHERE p.name LIKE 'C%';
+SELECT COUNT(*) FROM (
+	SELECT * FROM Person p
+	INNER JOIN Role r ON p.id = r.personId
+	WHERE p.name LIKE 'C%' AND (r.roleName = 'actor' OR  r.roleName = 'director')
+	GROUP BY p.id) s1;
 
 -- 5.
-SELECT per.name, per.birthdate
+SELECT per.name, YEAR(per.birthdate)
 FROM (Person per
 INNER JOIN Role r ON r.personId = per.id
 INNER JOIN Production pro ON pro.id = r.productionId)
-WHERE pro.name='Pulp Fiction'
-ORDER BY ascending;
+WHERE pro.title='Pulp Fiction'
+ORDER BY per.birthdate ASC;
 
--- 6.
-SELECT jomuelLJackvolta.title, jomuelLJackvolta.year
-FROM((SELECT *
-	  FROM Production pro
-	  INNER JOIN Role r ON pro.id = r.productionId
-	  INNER JOIN Person per ON r.personId = per.id
-	  WHERE per.name = 'John Travolta')
-	  INTERSECT
-	 (SELECT *
-	  FROM Production pro
-	  INNER JOIN Role r ON pro.id = r.productionId
-	  INNER JOIN Person per ON r.personId = per.id
-	  WHERE per.name='Samuel L Jackson')) jomuelLJackvolta;
-WHERE jomuelLJackvolta.year >= 1980;
+-- 6
+SELECT pro1.title, pro1.year
+FROM(
+	(production pro1
+	  INNER JOIN Role r1 ON pro1.id = r1.productionId
+	  INNER JOIN person per1 ON r1.personId = per1.id
+	  AND per1.name = 'John Travolta')
+	  INNER JOIN
+	 (production pro2
+	  INNER JOIN Role r2 ON pro2.id = r2.productionId
+	  INNER JOIN person per2 ON r2.personId = per2.id
+	  AND per2.name='Samadu Jackson') 
+	 ON pro1.id = pro2.id
+	 ) WHERE pro1.year >= 1980
+	ORDER BY year asc;
 
 -- 7.
-SELECT userId, COUNT(*) c
-FROM Rating
-GROUP BY userId HAVING c <= 10;
+SELECT COUNT(*) FROM (
+	SELECT userId, COUNT(*) c
+	FROM Rating
+	GROUP BY userId HAVING c <= 10) s1;
 
 -- 8.
-SELECT *
+SELECT title, imdbRating
 FROM Production
-WHERE year < 2000 AND year >= 1990 ORDER BY imdbRank desc LIMIT 5;
+WHERE year < 2000 AND year >= 1990 ORDER BY imdbRating desc LIMIT 5;
 
 -- 9.
+SELECT AVG(rating) rating, (SELECT title FROM Production WHERE id = productionId) title, COUNT(*) amount
+FROM Rating
+GROUP BY productionId HAVING amount >= 4
+ORDER BY rating desc
+LIMIT 5;
+
+-- 10.
+SELECT pro.language, AVG(pro.imdbRating) average
+FROM Production pro
+WHERE pro.year = 1994
+GROUP BY pro.language
+ORDER BY average DESC;
+
+-- 11.
+
+-- 12.
+SELECT pro.title, MAX(pro.imdbRating) AS rating
+FROM Production pro
+INNER JOIN Role r ON pro.id = r.productionId
+INNER JOIN Person per ON r.personId = per.id
+WHERE per.name = 'John Travolta';
+
+-- 13.
+SELECT COUNT(*) FROM Person
+WHERE gender = 'f' AND (
+	deathdate < (SELECT birthdate FROM Person WHERE name = "Charles Chaplin")
+	OR birthdate > (SELECT deathdate FROM Person WHERE name = "Charles Chaplin")
+);
+
+-- 14.
+SELECT gt.name, AVG(pro.imdbRating)
+FROM Production pro
+INNER JOIN Genre g ON pro.id = g.productionId
+INNER JOIN GenreType gt ON g.genreTypeId = gt.id
+GROUP BY gt.name;
+
+-- 15.
+SELECT * FROM (
+	SELECT (SELECT genreName FROM GenreType WHERE id = g.genreTypeId) genre, SUM(prods.c) s
+	FROM Genre g
+	INNER JOIN (SELECT pro.id proId, COUNT(*) c
+				FROM Production pro
+				INNER JOIN Rating r ON pro.id = r.productionId
+				GROUP BY pro.id) prods
+	ON prods.proId = g.productionId
+	GROUP BY g.genreTypeId ) s1
+WHERE s >= 10
+ORDER BY s DESC;
+
+-- 16.
+
+-- 17.
 SELECT *
-FROM Production, (SELECT COUNT(*) FROM Rating GROUP BY productionId) votesPerProd
-WHERE id = (SELECT productionId, AVG(rating) avg
-			FROM Rating
-			GROUP BY productionId ORDER BY avg desc LIMIT 5).productionId
-AND 
+FROM(	SELECT pro.id prodId1, per.id perId1
+		FROM Production pro
+		INNER JOIN Role r ON pro.id = r.productionId
+		INNER JOIN Person per ON r.personId = per.id
+		WHERE r.roleName = 'actor')
+AS actors
+WHERE actors.perId1 IN (SELECT per.id perId2
+						FROM Production pro
+						INNER JOIN Role r ON pro.id = r.productionId
+						INNER JOIN Person per ON r.personId = per.id
+						WHERE r.roleName = 'director');
+
+-- 18.
