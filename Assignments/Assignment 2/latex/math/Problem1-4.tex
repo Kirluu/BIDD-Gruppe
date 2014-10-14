@@ -1,21 +1,19 @@
 \subsection{\normalsize{$\pi_{id,name,address}(\sigma_{cpr=id}(\rho_{[cpr \mapsto id]}R_1 \times R_2)) = (\rho_{[cpr \mapsto id]}R_1) \Join (\rho_{[cpr \mapsto id]}R_2)$}}
 
 \begin{table}[ht]
-	\begin{tabular}{l}
-		 $\bm{R_{LHS}}$ \\
-		 $\pi_{id,name,address}(\sigma_{cpr=id}(\rho_{[cpr \mapsto id]}R_1 \times R_2))$   \\
-		 $A(R_{LHS}) = \pi_{id,name,address}(\sigma_{cpr=id}(\rho_{[cpr \mapsto id]}A(R_1) \times A(R_2)))$   \\
-		 $A(R_{LHS}) = \pi_{id,name,address}(\sigma_{cpr=id}(\{id, address, cpr, name\} \times \{id, name\}))$  \\
+	\begin{tabular}{|l|}
+		 $\bm{R_{LHS}} = \pi_{id,name,address}(\sigma_{cpr=id}(\rho_{[cpr \mapsto id]}R_1 \times R_2))$ \\[0.2cm]
+		 $A(R_{LHS}) = \pi_{id,name,address}(\sigma_{cpr=id}(\rho_{[cpr \mapsto id]}A(R_1) \times A(R_2)))$   \\[0.2cm]
+		 $A(R_{LHS}) = \pi_{id,name,address}(\sigma_{cpr=id}(\{id, address, cpr, name\} \times \{id, name\}))$  \\[0.2cm]
 		 $A(R_{LHS}) = \{id, address, name\}$ 
 	\end{tabular}
 \end{table}
 
 \begin{table}[ht]
-	\begin{tabular}{l}
-		 $\bm{R_{RHS}}$ \\
-		 $(\rho_{[cpr \mapsto id]}R_1) \Join (\rho_{[cpr \mapsto id]}R_2)$ \\
-		 $A(R_{RHS}) = (\rho_{[cpr \mapsto id]}A(R_1) \Join (\rho_{[cpr \mapsto id]}A(R_2))$ \\
-		 $A(R_{RHS}) = \{id, address\} \Join \{id, name\}$ \\
+	\begin{tabular}{|l|}
+		 $\bm{R_{RHS}} = (\rho_{[cpr \mapsto id]}R_1) \Join (\rho_{[cpr \mapsto id]}R_2)$\\[0.2cm]
+		 $A(R_{RHS}) = (\rho_{[cpr \mapsto id]}A(R_1) \Join (\rho_{[cpr \mapsto id]}A(R_2))$ \\[0.2cm]
+		 $A(R_{RHS}) = \{id, address\} \Join \{id, name\}$ \\[0.2cm]
 		 $A(R_{RHS}) = \{id, address, name\}$
 	\end{tabular}
 \end{table}
