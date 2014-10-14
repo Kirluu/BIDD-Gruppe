@@ -1,24 +1,789 @@
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-\lstset{
-	backgroundcolor=\color{white},   
-	basicstyle=\footnotesize,        
-	breaklines=true,                 
-	captionpos=b,                    
-	commentstyle=\color{mygreen},    
-	escapeinside={\%*}{*)},          
-	keywordstyle=\color{blue},       
-	stringstyle=\color{mymauve},     
-}
-
 \section{SQL Queries}
-\lstinputlisting[language=SQL]{../SQL/queries.sql}
+\subsection{Query 1}
+\begin{lstlisting}[language=sql]
+SELECT COUNT(*)
+FROM Production
+WHERE language='Danish';
+\end{lstlisting}
 
-\lstdefinestyle{BashStyle}{
-  keywordstyle=\color{black},
-  basicstyle=\color{black},
-  extendedchars=true
-}
-\subsection{Transcript}
-\lstinputlisting[language=bash, style=BashStyle]{../SQL/queriesresult.txt}
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++----------+
+| COUNT(*) |
++----------+
+|      419 |
++----------+
+1 row in set (0.02 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 2}
+\begin{lstlisting}[language=sql]
+SELECT year, COUNT(*)
+FROM Production
+INNER JOIN Rating ON id = productionId
+GROUP BY year;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++------+----------+
+| year | COUNT(*) |
++------+----------+
+| 1962 |        1 |
+| 1991 |        6 |
+| 1992 |        3 |
+| 1993 |        4 |
+| 1994 |       33 |
+| 1995 |       21 |
+| 1997 |       17 |
+| 1998 |       29 |
+| 1999 |       48 |
+| 2000 |       24 |
+| 2001 |       28 |
+| 2002 |       19 |
+| 2003 |       27 |
+| 2004 |       13 |
+| 2005 |       31 |
+| 2006 |       27 |
+| 2007 |       26 |
+| 2008 |       41 |
+| 2009 |       47 |
+| 2010 |       23 |
+| 2012 |       17 |
++------+----------+
+21 rows in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 3}
+\begin{lstlisting}[language=sql]
+SELECT * FROM (
+	SELECT id, title FROM production
+	WHERE id IN (
+		SELECT id FROM production
+		WHERE id IN (
+			SELECT productionId FROM role
+			WHERE personId IN (
+				SELECT id FROM person WHERE name="John Travolta" OR name="Uma Thurman")))) s1
+WHERE NOT EXISTS (
+	SELECT * FROM (SELECT id FROM production 
+	WHERE id IN (
+		SELECT r1.productionId FROM role r1
+		INNER JOIN role r2 on r1.productionId = r2.productionId 
+		WHERE r1.personId=(
+			SELECT id FROM person WHERE name="John Travolta") AND r2.personId=(
+				SELECT id FROM person WHERE name="Uma Thurman"))) s2 
+	WHERE s1.id=s2.id);
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++-------+----------------------------------------------------+
+| id    | title                                              |
++-------+----------------------------------------------------+
+|   308 | "20 to 1"                                          |
+|   309 | "20/20"                                            |
+|   816 | "Behind the Music"                                 |
+|   896 | "Biography"                                        |
+|  1030 | "Breakfast"                                        |
+|  1127 | "CBS News Sunday Morning"                          |
+|  1929 | "El hormiguero"                                    |
+|  1950 | "Emergency!"                                       |
+|  2095 | "Fat Actress"                                      |
+|  2110 | "Fear Factor"                                      |
+|  2421 | "Gomorron"                                         |
+|  2820 | "I Love the '80s"                                  |
+|  2921 | "Inside the Actors Studio"                         |
+|  3244 | "Kirstie Alley's Big Life"                         |
+|  3401 | "Larry King Live"                                  |
+|  3407 | "Last Call with Carson Daly"                       |
+|  3437 | "Le grand journal de Canal+"                       |
+|  3553 | "Live from Studio Five"                            |
+|  3654 | "MADtv"                                            |
+|  3811 | "Medical Center"                                   |
+|  4406 | "Parkinson"                                        |
+|  4891 | "Rove Live"                                        |
+|  4993 | "Saturday Night Live"                              |
+|  5564 | "Taff"                                             |
+|  5606 | "Tavis Smiley"                                     |
+|  5679 | "The 7PM Project"                                  |
+|  5938 | "The Dodge Dancing Party"                          |
+|  5945 | "The Drew Carey Show"                              |
+|  6089 | "The Howard Stern Radio Show"                      |
+|  6127 | "The Jay Leno Show"                                |
+|  6248 | "The Merv Griffin Show"                            |
+|  6331 | "The O'Reilly Factor"                              |
+|  6449 | "The Rookies"                                      |
+|  6572 | "The Tonight Show Starring Johnny Carson"          |
+|  6573 | "The Tonight Show with Conan O'Brien"              |
+|  6701 | "This Morning"                                     |
+|  6802 | "Top of the Pops"                                  |
+|  7120 | "Welcome Back, Kotter"                             |
+|  8062 | A Civil Action                                     |
+|  8293 | A Love Song for Bobby Long                         |
+| 10884 | Austin Powers in Goldmember                        |
+| 11545 | Basic                                              |
+| 11615 | Battlefield Earth                                  |
+| 12782 | Blow Out                                           |
+| 12973 | Bolt                                               |
+| 13099 | Boris and Natasha                                  |
+| 13451 | Broken Arrow                                       |
+| 14258 | Carrie                                             |
+| 14587 | Chains of Gold                                     |
+| 18579 | Domestic Disturbance                               |
+| 20698 | Eyes of an Angel                                   |
+| 20747 | Face/Off                                           |
+| 22182 | From Paris with Love                               |
+| 22813 | Get Shorty                                         |
+| 23555 | Grease                                             |
+| 24004 | Hairspray                                          |
+| 28240 | Junket Whore                                       |
+| 31040 | Ladder 49                                          |
+| 32936 | Lonely Hearts                                      |
+| 32986 | Look Who's Talking                                 |
+| 32987 | Look Who's Talking Now                             |
+| 32988 | Look Who's Talking Too                             |
+| 33395 | Lucky Numbers                                      |
+| 33647 | Mad City                                           |
+| 33787 | Magnificent Desolation: Walking on the Moon 3D     |
+| 34940 | Michael                                            |
+| 35433 | Moment by Moment                                   |
+| 38004 | Off the Menu: The Last Days of Chasen's            |
+| 38600 | Orientation: A Scientology Information Film        |
+| 39355 | Paul Williams Still Alive                          |
+| 39541 | Perfect                                            |
+| 39695 | Phenomenon                                         |
+| 40530 | Primary Colors                                     |
+| 41699 | Religulous                                         |
+| 43187 | Saturday Night Fever                               |
+| 43229 | Savages                                            |
+| 44132 | She's So Lovely                                    |
+| 44365 | Shout                                              |
+| 46029 | Staying Alive                                      |
+| 46926 | Swordfish                                          |
+| 47827 | That's Dancing!                                    |
+| 49423 | The Devil's Rain                                   |
+| 49668 | The Experts                                        |
+| 50042 | The General's Daughter                             |
+| 50361 | The Guru                                           |
+| 52519 | The Punisher                                       |
+| 53444 | The Taking of Pelham 1 2 3                         |
+| 53532 | The Thin Red Line                                  |
+| 55785 | Two of a Kind                                      |
+| 56474 | Urban Cowboy                                       |
+| 57669 | Welcome to Hollywood                               |
+| 57978 | White Man's Burden                                 |
+| 58123 | Wild Hogs                                          |
+|   604 | "Ant & Dec's Saturday Night Takeaway"              |
+|  2777 | "Howard Stern"                                     |
+|  2912 | "Independent Lens"                                 |
+|  3415 | "Late Night with Conan O'Brien"                    |
+|  3417 | "Late Night with Jimmy Fallon"                     |
+|  5222 | "Smash"                                            |
+|  5864 | "The City"                                         |
+|  5901 | "The Daily Show"                                   |
+|  6770 | "Today"                                            |
+|  6962 | "Unscripted"                                       |
+|  8341 | A Month by the Lake                                |
+|  9519 | All the Love You Cannes!                           |
+| 11573 | Batman & Robin                                     |
+| 11711 | Beautiful Girls                                    |
+| 11862 | Bel Ami                                            |
+| 14525 | Ceremony                                           |
+| 14819 | Chelsea Walls                                      |
+| 16605 | Dangerous Liaisons                                 |
+| 20499 | Even Cowgirls Get the Blues                        |
+| 21314 | Final Analysis                                     |
+| 22612 | Gattaca                                            |
+| 24721 | Henry & June                                       |
+| 27693 | Jennifer Eight                                     |
+| 27959 | Johnny Be Good                                     |
+| 28726 | Kaze no tani no Naushika                           |
+| 28976 | Kill Bill: Vol. 1                                  |
+| 28977 | Kill Bill: Vol. 2                                  |
+| 29201 | Kiss Daddy Goodnight                               |
+| 32053 | Les Misérables                                     |
+| 33654 | Mad Dog and Glory                                  |
+| 35283 | Mission Zero                                       |
+| 36336 | My Super Ex-Girlfriend                             |
+| 39377 | Paycheck                                           |
+| 39528 | Percy Jackson & the Olympians: The Lightning Thief |
+| 40532 | Prime                                              |
+| 46879 | Sweet and Lowdown                                  |
+| 47303 | Tape                                               |
+| 47891 | The Accidental Husband                             |
+| 47914 | The Adventures of Baron Munchausen                 |
+| 48134 | The Avengers                                       |
+| 50166 | The Golden Bowl                                    |
+| 51212 | The Life Before Her Eyes                           |
+| 51879 | The Naked Brothers Band: The Movie                 |
+| 52479 | The Producers                                      |
+| 53700 | The Truth About Cats & Dogs                        |
+| 56631 | Valentino: The Last Emperor                        |
+| 56762 | Vatel                                              |
+| 57906 | Where the Heart Is                                 |
++-------+----------------------------------------------------+
+141 rows in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 4}
+\begin{lstlisting}[language=sql]
+SELECT COUNT(*) FROM (
+	SELECT * FROM Person p
+	INNER JOIN Role r ON p.id = r.personId
+	WHERE p.name LIKE 'C%' AND (r.roleName = 'actor' OR  r.roleName = 'director')
+	GROUP BY p.id) s1;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++----------+
+| COUNT(*) |
++----------+
+|    10660 |
++----------+
+1 row in set (0.19 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 5}
+\begin{lstlisting}[language=sql]
+SELECT per.name, YEAR(per.birthdate)
+FROM (Person per
+INNER JOIN Role r ON r.personId = per.id
+INNER JOIN Production pro ON pro.id = r.productionId)
+WHERE pro.title='Pulp Fiction'
+ORDER BY per.birthdate ASC;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++---------------------+---------------------+
+| name                | YEAR(per.birthdate) |
++---------------------+---------------------+
+| Terry Roth          |                NULL |
+| Venessia Valentino  |                NULL |
+| Patricio Calderon   |                NULL |
+| Samadu Jackson      |                NULL |
+| Caleb Allen         |                NULL |
+| Don Blakely         |                NULL |
+| Peggy Greene        |                NULL |
+| Devin Marcus Miller |                NULL |
+| Richard Ruth        |                NULL |
+| Angel Star Jones    |                NULL |
+| Emett Clark         |                NULL |
+| Glendon Rich        |                NULL |
+| Rian Turner         |                NULL |
+| Sophie Griffiths    |                NULL |
+| Brad Blumenthal     |                NULL |
+| Stephen Hibbert     |                NULL |
+| Bronagh Gallagher   |                NULL |
+| Linda Kaye          |                NULL |
+| Emil Sitka          |                1914 |
+| Harvey Keitel       |                1939 |
+| Rene Beard          |                1941 |
+| Christopher Walken  |                1943 |
+| Joseph Pilato       |                1949 |
+| Brenda Hillhouse    |                1953 |
+| John Travolta       |                1954 |
+| Bruce Willis        |                1955 |
+| Amanda Plummer      |                1957 |
+| Lawrence Bender     |                1957 |
+| Steve Buscemi       |                1957 |
+| Karen Maruyama      |                1958 |
+| Ving Rhames         |                1959 |
+| Duane Whitaker      |                1959 |
+| Rosanna Arquette    |                1959 |
+| Julia Sweeney       |                1959 |
+| Kathy Griffin       |                1960 |
+| Eric Stoltz         |                1961 |
+| Michael Gilden      |                1962 |
+| Quentin Tarantino   |                1963 |
+| Quentin Tarantino   |                1963 |
+| Frank Whaley        |                1963 |
+| Maria de Medeiros   |                1965 |
+| Burr Steers         |                1965 |
+| Phil LaMarr         |                1967 |
+| Alexis Arquette     |                1969 |
+| Uma Thurman         |                1970 |
++---------------------+---------------------+
+45 rows in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 6}
+\begin{lstlisting}[language=sql]
+SELECT pro1.title, pro1.year
+FROM(
+	(production pro1
+	  INNER JOIN Role r1 ON pro1.id = r1.productionId
+	  INNER JOIN person per1 ON r1.personId = per1.id
+	  AND per1.name = 'John Travolta')
+	  INNER JOIN
+	 (production pro2
+	  INNER JOIN Role r2 ON pro2.id = r2.productionId
+	  INNER JOIN person per2 ON r2.personId = per2.id
+	  AND per2.name='Samadu Jackson') 
+	 ON pro1.id = pro2.id
+	 ) WHERE pro1.year >= 1980
+	ORDER BY year asc;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++--------------------------------------------+------+
+| title                                      | year |
++--------------------------------------------+------+
+| "Entertainment Tonight"                    | 1981 |
+| "Biography"                                | 1987 |
+| "Live with Regis and Kathie Lee"           | 1988 |
+| "The Charlie Rose Show"                    | 1991 |
+| "Gomorron"                                 | 1992 |
+| "HBO First Look"                           | 1992 |
+| "The Tonight Show with Jay Leno"           | 1992 |
+| "GMTV"                                     | 1993 |
+| "Late Show with David Letterman"           | 1993 |
+| "Inside the Actors Studio"                 | 1994 |
+| Pulp Fiction                               | 1994 |
+| "The O'Reilly Factor"                      | 1996 |
+| "The Rosie O'Donnell Show"                 | 1996 |
+| Off the Menu: The Last Days of Chasen's    | 1997 |
+| You're Still Not Fooling Anybody           | 1997 |
+| "The View"                                 | 1997 |
+| "The Howard Stern Radio Show"              | 1998 |
+| "Friday Night with Jonathan Ross"          | 2001 |
+| Basic                                      | 2003 |
+| "Ellen: The Ellen DeGeneres Show"          | 2003 |
+| "Le grand journal de Canal+"               | 2004 |
+| "Tavis Smiley"                             | 2004 |
+| Boffo! Tinseltown's Bombs and Blockbusters | 2006 |
+| "The Tonight Show with Conan O'Brien"      | 2009 |
++--------------------------------------------+------+
+24 rows in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 7}
+\begin{lstlisting}[language=sql]
+SELECT COUNT(*) FROM (
+	SELECT userId, COUNT(*) c
+	FROM Rating
+	GROUP BY userId HAVING c <= 10) s1;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++----------+
+| COUNT(*) |
++----------+
+|       20 |
++----------+
+1 row in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 8}
+\begin{lstlisting}[language=sql]
+SELECT title, imdbRating
+FROM Production
+WHERE year < 2000 AND year >= 1990 ORDER BY imdbRating desc LIMIT 5;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++----------------------------------------------------------------------+-------------------+
+| title                                                                | imdbRating        |
++----------------------------------------------------------------------+-------------------+
+| The Men Who Danced: The story of Ted Shawn's Male Dancers; 1933-1940 | 9.399999618530273 |
+| "Byomekesh Bakshi"                                                   | 9.399999618530273 |
+| "The Beatles Anthology"                                              | 9.399999618530273 |
+| "The Civil War"                                                      | 9.399999618530273 |
+| "Fóstbræður"                                                         | 9.399999618530273 |
++----------------------------------------------------------------------+-------------------+
+5 rows in set (0.03 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 9}
+\begin{lstlisting}[language=sql]
+SELECT AVG(rating) rating, (SELECT title FROM Production WHERE id = productionId) title, COUNT(*) amount
+FROM Rating
+GROUP BY productionId HAVING amount >= 4
+ORDER BY rating desc
+LIMIT 5;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++--------+--------------------------+--------+
+| rating | title                    | amount |
++--------+--------------------------+--------+
+| 9.2000 | Snatch.                  |      5 |
+| 9.1250 | The Shawshank Redemption |      8 |
+| 9.0000 | The Avengers             |      5 |
+| 9.0000 | Pulp Fiction             |      9 |
+| 8.9000 | WALL·E                   |     10 |
++--------+--------------------------+--------+
+5 rows in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 10}
+\begin{lstlisting}[language=sql]
+SELECT pro.language, AVG(pro.imdbRating) average
+FROM Production pro
+WHERE pro.year = 1994
+GROUP BY pro.language
+ORDER BY average DESC;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++------------------------+--------------------+
+| language               | average            |
++------------------------+--------------------+
+| Welsh                  |  8.100000381469727 |
+| Albanian               |  7.900000095367432 |
+| Serbo                  |  7.799999952316284 |
+| Hungarian              |  7.749999761581421 |
+| Turkish                |  7.733333269755046 |
+| Urdu                   |  7.300000190734863 |
+| Assamese               |  7.300000190734863 |
+| Filipino               |  7.300000190734863 |
+| None                   |               7.25 |
+| Hebrew                 | 7.1499998569488525 |
+| Persian                |  7.133333206176758 |
+| Bulgarian              |  7.099999904632568 |
+|                        |  7.028333375851314 |
+| Ukrainian              |                  7 |
+| British Sign Language  |                  7 |
+| Slovak                 |  6.900000095367432 |
+| Kabuverdianu           |  6.900000095367432 |
+| Japanese               |  6.879310328384926 |
+| Khmer                  |  6.800000190734863 |
+| Shanghainese           |  6.800000190734863 |
+| Polish                 |  6.800000190734863 |
+| Mandarin               | 6.7272727272727275 |
+| Czech                  |   6.71428564616612 |
+| Russian                |  6.699999977560604 |
+| Karaja                 |  6.699999809265137 |
+| Portuguese             |  6.657142843518939 |
+| Irish Gaelic           |  6.650000095367432 |
+| Cantonese              |  6.627586200319487 |
+| French                 |  6.603703706352799 |
+| Norwegian              |  6.600000063578288 |
+| Telugu                 |  6.549999952316284 |
+| Tamil                  |                6.5 |
+| Klingon                |                6.5 |
+| Dutch                  |  6.425000011920929 |
+| Malayalam              |              6.375 |
+| Spanish                |  6.343478265015976 |
+| Vietnamese             |  6.199999809265137 |
+| American Sign Language | 6.1499998569488525 |
+| Latin                  | 6.1000001430511475 |
+| Swedish                |   6.09444444709354 |
+| Hindi                  |  6.041666626930237 |
+| Greek                  | 6.0333333015441895 |
+| German                 | 6.0124999433755875 |
+| NULL                   |  6.000000029802322 |
+| Italian                |  5.934999966621399 |
+| Taiwanese              |  5.933333396911621 |
+| Arabic                 |  5.900000095367432 |
+| Icelandic              | 5.8500001430511475 |
+| Serbian                | 5.6333333651224775 |
+| English                |  5.566735971990098 |
+| Danish                 |                5.5 |
+| Finnish                |  5.333333373069763 |
+| Scottish Gaelic        |                  5 |
+| Thai                   |  4.300000190734863 |
+| Romanian               |  4.300000190734863 |
+| Inuktitut              |                  4 |
+| Esperanto              |                3.5 |
+| Korean                 |  3.299999952316284 |
++------------------------+--------------------+
+58 rows in set (0.02 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 11}
+\begin{lstlisting}[language=sql]
+SELECT DISTINCT personId
+FROM Person per1 
+INNER JOIN Role r1 ON r1.personId = per1.id
+INNER JOIN Production pro1 ON pro1.id = r1.productionId AND pro1.title='Pulp Fiction' AND r1.roleName='actor'
+WHERE per1.id NOT IN 
+( 
+    SELECT DISTINCT personId
+    FROM 
+    (
+        SELECT productionId, COUNT(*) c
+        FROM
+        (
+            SELECT r2.productionId 
+            FROM
+            (
+                SELECT per1.id IdOfActorsInPulpFiction
+                FROM Person per1
+                INNER JOIN Role r1 ON r1.personId = per1.id
+                INNER JOIN Production pro1 ON pro1.id = r1.productionId AND pro1.title='Pulp Fiction' AND r1.roleName='actor'         
+            ) ActorsInPulpFiction
+            INNER JOIN Role r2 ON IdOfActorsInPulpFiction = r2.personId
+            AND r2.roleName='actor' AND r2.productionId != (SELECT id FROM production WHERE title ='Pulp Fiction')
+        ) MoviesOfPulpFictionCastMinusPulpFiction
+        GROUP BY productionId HAVING c > 1
+    ) MoviesWithMoreThanOnePulpFictionActor 
+    INNER JOIN role r3 ON r3.productionId = MoviesWithMoreThanOnePulpFictionActor.productionId
+    AND r3.productionId != (SELECT id FROM production WHERE title ='Pulp Fiction')
+);
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
+Empty set (0.28 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 12}
+\begin{lstlisting}[language=sql]
+SELECT pro.title, MAX(pro.imdbRating) AS rating
+FROM Production pro
+INNER JOIN Role r ON pro.id = r.productionId
+INNER JOIN Person per ON r.personId = per.id
+WHERE per.name = 'John Travolta';
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++-----------+--------+
+| title     | rating |
++-----------+--------+
+| "20 to 1" |      9 |
++-----------+--------+
+1 row in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 13}
+\begin{lstlisting}[language=sql]
+SELECT COUNT(*) FROM Person
+WHERE gender = 'f' AND (
+	deathdate < (SELECT birthdate FROM Person WHERE name = "Charles Chaplin")
+	OR birthdate > (SELECT deathdate FROM Person WHERE name = "Charles Chaplin")
+);
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++----------+
+| COUNT(*) |
++----------+
+|     5405 |
++----------+
+1 row in set (0.06 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 14}
+\begin{lstlisting}[language=sql]
+SELECT gt.genreName, AVG(pro.imdbRating)
+FROM Production pro
+INNER JOIN Genre g ON pro.id = g.productionId
+INNER JOIN GenreType gt ON g.genreTypeId = gt.id
+GROUP BY gt.genreName;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++-------------+---------------------+
+| genreName   | AVG(pro.imdbRating) |
++-------------+---------------------+
+| Action      |  5.8364250011509755 |
+| Adventure   |   6.157145853708073 |
+| Animation   |   6.974320620142352 |
+| Biography   |   6.822237383782619 |
+| Comedy      |   6.165129546340469 |
+| Crime       |   6.258606123751618 |
+| Documentary |   7.126527340580796 |
+| Drama       |    6.40668171274838 |
+| Family      |   6.481761813520595 |
+| Fantasy     |   6.227875971313595 |
+| Film-Noir   |  6.9321167927298815 |
+| Game-Show   |   6.383536575770959 |
+| History     |   6.942178106910485 |
+| Horror      |   5.150696272862599 |
+| Lifestyle   |   6.900000095367432 |
+| Music       |   6.510630410445488 |
+| Musical     |   6.293650791015214 |
+| Mystery     |  6.3101485167989635 |
+| News        |   6.359803909180211 |
+| Reality-TV  |   5.492322835865922 |
+| Romance     |   6.276735041736733 |
+| Sci-Fi      |  5.6788142753069435 |
+| Short       |   6.795509625767042 |
+| Sport       |   6.271291862834584 |
+| Talk-Show   |   6.152791869216764 |
+| Thriller    |   5.836301767794453 |
+| War         |   6.693805702761108 |
+| Western     |   6.237180371983099 |
++-------------+---------------------+
+28 rows in set (0.19 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 15}
+\begin{lstlisting}[language=sql]
+SELECT * FROM (
+	SELECT (SELECT genreName FROM GenreType WHERE id = g.genreTypeId) genre, SUM(prods.c) s
+	FROM Genre g
+	INNER JOIN (SELECT pro.id proId, COUNT(*) c
+				FROM Production pro
+				INNER JOIN Rating r ON pro.id = r.productionId
+				GROUP BY pro.id) prods
+	ON prods.proId = g.productionId
+	GROUP BY g.genreTypeId ) s1
+WHERE s >= 10
+ORDER BY s DESC;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++-----------+------+
+| genre     | s    |
++-----------+------+
+| Drama     |  241 |
+| Action    |  230 |
+| Adventure |  192 |
+| Thriller  |  171 |
+| Sci-Fi    |  138 |
+| Crime     |  119 |
+| Fantasy   |  108 |
+| Mystery   |   67 |
+| Comedy    |   42 |
+| Romance   |   41 |
+| Animation |   35 |
+| Family    |   35 |
+| War       |   26 |
+| Biography |   15 |
++-----------+------+
+14 rows in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 16}
+\begin{lstlisting}[language=sql]
+SELECT (SELECT title FROM Production WHERE id = fromId) title, c twoLinkCount FROM (
+	SELECT r1.fromId, COUNT(*) c FROM Reference r1
+	INNER JOIN (SELECT r2.id id2, r2.fromId fromId2, r2.toId toId2 FROM Reference r2) s1 ON r1.toId = s1.fromId2
+	INNER JOIN (SELECT r3.id id3, r3.fromId fromId3, r3.toId toId3 FROM Reference r3) s2 ON s1.toId2 = s2.fromId3
+	GROUP BY r1.fromId
+) sLast
+ORDER BY c DESC
+LIMIT 1;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++-----------------------+--------------+
+| title                 | twoLinkCount |
++-----------------------+--------------+
+| "Saturday Night Live" |      1015408 |
++-----------------------+--------------+
+1 row in set (25.47 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 17}
+\begin{lstlisting}[language=sql]
+SELECT COUNT(*)
+FROM (
+	SELECT per.id actorPerId
+	FROM Production pro
+	INNER JOIN Role r ON pro.id = r.productionId
+	INNER JOIN Person per ON r.personId = per.id
+	WHERE r.roleName = 'actor'
+	GROUP BY actorPerId)
+AS actors
+WHERE actors.actorPerId IN (
+	SELECT per.id directorPerId
+	FROM Production pro
+	INNER JOIN Role r ON pro.id = r.productionId
+	INNER JOIN Person per ON r.personId = per.id
+	WHERE r.roleName = 'director');
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++----------+
+| COUNT(*) |
++----------+
+|     5930 |
++----------+
+1 row in set (3.97 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}
+
+
+\subsection{Query 18}
+\begin{lstlisting}[language=sql]
+SELECT gt1.genreName, gt2.genreName, amount
+FROM (
+	SELECT g1.genreTypeId g1Id, g2.genreTypeId g2Id, COUNT(*) amount
+	FROM Production pro
+	INNER JOIN Genre g1 ON pro.id = g1.productionId
+	INNER JOIN Genre g2 ON pro.id = g2.productionId
+	GROUP BY g1.genreTypeId, g2.genreTypeId
+	) s1
+INNER JOIN GenreType gt1 ON gt1.id = s1.g1Id
+INNER JOIN GenreType gt2 ON gt2.id = s1.g2Id
+WHERE gt1.genreName != gt2.genreName
+GROUP BY gt1.genreName, gt2.genreName
+ORDER BY amount DESC
+LIMIT 1;
+\end{lstlisting}
+
+\subsubsection{Transcript}
+\begin{lstlisting}[language=bash]
++-----------+-----------+--------+
+| genreName | genreName | amount |
++-----------+-----------+--------+
+| Romance   | Drama     |   5799 |
++-----------+-----------+--------+
+1 row in set (0.60 sec)
+\end{lstlisting}
+
+\subsubsection{Explanation}

@@ -1,3 +1,4 @@
+
 -- 1.
 +----------+
 | COUNT(*) |
@@ -40,7 +41,6 @@
 +-------+----------------------------------------------------+
 |   308 | "20 to 1"                                          |
 |   309 | "20/20"                                            |
-|   604 | "Ant & Dec's Saturday Night Takeaway"              |
 |   816 | "Behind the Music"                                 |
 |   896 | "Biography"                                        |
 |  1030 | "Breakfast"                                        |
@@ -50,15 +50,11 @@
 |  2095 | "Fat Actress"                                      |
 |  2110 | "Fear Factor"                                      |
 |  2421 | "Gomorron"                                         |
-|  2777 | "Howard Stern"                                     |
 |  2820 | "I Love the '80s"                                  |
-|  2912 | "Independent Lens"                                 |
 |  2921 | "Inside the Actors Studio"                         |
 |  3244 | "Kirstie Alley's Big Life"                         |
 |  3401 | "Larry King Live"                                  |
 |  3407 | "Last Call with Carson Daly"                       |
-|  3415 | "Late Night with Conan O'Brien"                    |
-|  3417 | "Late Night with Jimmy Fallon"                     |
 |  3437 | "Le grand journal de Canal+"                       |
 |  3553 | "Live from Studio Five"                            |
 |  3654 | "MADtv"                                            |
@@ -66,12 +62,9 @@
 |  4406 | "Parkinson"                                        |
 |  4891 | "Rove Live"                                        |
 |  4993 | "Saturday Night Live"                              |
-|  5222 | "Smash"                                            |
 |  5564 | "Taff"                                             |
 |  5606 | "Tavis Smiley"                                     |
 |  5679 | "The 7PM Project"                                  |
-|  5864 | "The City"                                         |
-|  5901 | "The Daily Show"                                   |
 |  5938 | "The Dodge Dancing Party"                          |
 |  5945 | "The Drew Carey Show"                              |
 |  6089 | "The Howard Stern Radio Show"                      |
@@ -82,105 +75,113 @@
 |  6572 | "The Tonight Show Starring Johnny Carson"          |
 |  6573 | "The Tonight Show with Conan O'Brien"              |
 |  6701 | "This Morning"                                     |
-|  6770 | "Today"                                            |
 |  6802 | "Top of the Pops"                                  |
-|  6962 | "Unscripted"                                       |
 |  7120 | "Welcome Back, Kotter"                             |
 |  8062 | A Civil Action                                     |
 |  8293 | A Love Song for Bobby Long                         |
-|  8341 | A Month by the Lake                                |
-|  9519 | All the Love You Cannes!                           |
 | 10884 | Austin Powers in Goldmember                        |
 | 11545 | Basic                                              |
-| 11573 | Batman & Robin                                     |
 | 11615 | Battlefield Earth                                  |
-| 11711 | Beautiful Girls                                    |
-| 11862 | Bel Ami                                            |
 | 12782 | Blow Out                                           |
 | 12973 | Bolt                                               |
 | 13099 | Boris and Natasha                                  |
 | 13451 | Broken Arrow                                       |
 | 14258 | Carrie                                             |
-| 14525 | Ceremony                                           |
 | 14587 | Chains of Gold                                     |
-| 14819 | Chelsea Walls                                      |
-| 16605 | Dangerous Liaisons                                 |
 | 18579 | Domestic Disturbance                               |
-| 20499 | Even Cowgirls Get the Blues                        |
 | 20698 | Eyes of an Angel                                   |
 | 20747 | Face/Off                                           |
-| 21314 | Final Analysis                                     |
 | 22182 | From Paris with Love                               |
-| 22612 | Gattaca                                            |
 | 22813 | Get Shorty                                         |
 | 23555 | Grease                                             |
 | 24004 | Hairspray                                          |
-| 24721 | Henry & June                                       |
-| 27693 | Jennifer Eight                                     |
-| 27959 | Johnny Be Good                                     |
 | 28240 | Junket Whore                                       |
-| 28726 | Kaze no tani no Naushika                           |
-| 28976 | Kill Bill: Vol. 1                                  |
-| 28977 | Kill Bill: Vol. 2                                  |
-| 29201 | Kiss Daddy Goodnight                               |
 | 31040 | Ladder 49                                          |
-| 32053 | Les Misérables                                     |
 | 32936 | Lonely Hearts                                      |
 | 32986 | Look Who's Talking                                 |
 | 32987 | Look Who's Talking Now                             |
 | 32988 | Look Who's Talking Too                             |
 | 33395 | Lucky Numbers                                      |
 | 33647 | Mad City                                           |
-| 33654 | Mad Dog and Glory                                  |
 | 33787 | Magnificent Desolation: Walking on the Moon 3D     |
 | 34940 | Michael                                            |
-| 35283 | Mission Zero                                       |
 | 35433 | Moment by Moment                                   |
-| 36336 | My Super Ex-Girlfriend                             |
 | 38004 | Off the Menu: The Last Days of Chasen's            |
 | 38600 | Orientation: A Scientology Information Film        |
 | 39355 | Paul Williams Still Alive                          |
-| 39377 | Paycheck                                           |
-| 39528 | Percy Jackson & the Olympians: The Lightning Thief |
 | 39541 | Perfect                                            |
 | 39695 | Phenomenon                                         |
 | 40530 | Primary Colors                                     |
-| 40532 | Prime                                              |
 | 41699 | Religulous                                         |
 | 43187 | Saturday Night Fever                               |
 | 43229 | Savages                                            |
 | 44132 | She's So Lovely                                    |
 | 44365 | Shout                                              |
 | 46029 | Staying Alive                                      |
-| 46879 | Sweet and Lowdown                                  |
 | 46926 | Swordfish                                          |
-| 47303 | Tape                                               |
 | 47827 | That's Dancing!                                    |
-| 47891 | The Accidental Husband                             |
-| 47914 | The Adventures of Baron Munchausen                 |
-| 48134 | The Avengers                                       |
 | 49423 | The Devil's Rain                                   |
 | 49668 | The Experts                                        |
 | 50042 | The General's Daughter                             |
-| 50166 | The Golden Bowl                                    |
 | 50361 | The Guru                                           |
-| 51212 | The Life Before Her Eyes                           |
-| 51879 | The Naked Brothers Band: The Movie                 |
-| 52479 | The Producers                                      |
 | 52519 | The Punisher                                       |
 | 53444 | The Taking of Pelham 1 2 3                         |
 | 53532 | The Thin Red Line                                  |
-| 53700 | The Truth About Cats & Dogs                        |
 | 55785 | Two of a Kind                                      |
 | 56474 | Urban Cowboy                                       |
-| 56631 | Valentino: The Last Emperor                        |
-| 56762 | Vatel                                              |
 | 57669 | Welcome to Hollywood                               |
-| 57906 | Where the Heart Is                                 |
 | 57978 | White Man's Burden                                 |
 | 58123 | Wild Hogs                                          |
+|   604 | "Ant & Dec's Saturday Night Takeaway"              |
+|  2777 | "Howard Stern"                                     |
+|  2912 | "Independent Lens"                                 |
+|  3415 | "Late Night with Conan O'Brien"                    |
+|  3417 | "Late Night with Jimmy Fallon"                     |
+|  5222 | "Smash"                                            |
+|  5864 | "The City"                                         |
+|  5901 | "The Daily Show"                                   |
+|  6770 | "Today"                                            |
+|  6962 | "Unscripted"                                       |
+|  8341 | A Month by the Lake                                |
+|  9519 | All the Love You Cannes!                           |
+| 11573 | Batman & Robin                                     |
+| 11711 | Beautiful Girls                                    |
+| 11862 | Bel Ami                                            |
+| 14525 | Ceremony                                           |
+| 14819 | Chelsea Walls                                      |
+| 16605 | Dangerous Liaisons                                 |
+| 20499 | Even Cowgirls Get the Blues                        |
+| 21314 | Final Analysis                                     |
+| 22612 | Gattaca                                            |
+| 24721 | Henry & June                                       |
+| 27693 | Jennifer Eight                                     |
+| 27959 | Johnny Be Good                                     |
+| 28726 | Kaze no tani no Naushika                           |
+| 28976 | Kill Bill: Vol. 1                                  |
+| 28977 | Kill Bill: Vol. 2                                  |
+| 29201 | Kiss Daddy Goodnight                               |
+| 32053 | Les Misérables                                     |
+| 33654 | Mad Dog and Glory                                  |
+| 35283 | Mission Zero                                       |
+| 36336 | My Super Ex-Girlfriend                             |
+| 39377 | Paycheck                                           |
+| 39528 | Percy Jackson & the Olympians: The Lightning Thief |
+| 40532 | Prime                                              |
+| 46879 | Sweet and Lowdown                                  |
+| 47303 | Tape                                               |
+| 47891 | The Accidental Husband                             |
+| 47914 | The Adventures of Baron Munchausen                 |
+| 48134 | The Avengers                                       |
+| 50166 | The Golden Bowl                                    |
+| 51212 | The Life Before Her Eyes                           |
+| 51879 | The Naked Brothers Band: The Movie                 |
+| 52479 | The Producers                                      |
+| 53700 | The Truth About Cats & Dogs                        |
+| 56631 | Valentino: The Last Emperor                        |
+| 56762 | Vatel                                              |
+| 57906 | Where the Heart Is                                 |
 +-------+----------------------------------------------------+
-141 rows in set (3.69 sec)
+141 rows in set (0.00 sec)
 
 -- 4.
 +----------+
@@ -188,30 +189,30 @@
 +----------+
 |    10660 |
 +----------+
-1 row in set (0.60 sec)
+1 row in set (0.19 sec)
 
 -- 5.
 +---------------------+---------------------+
 | name                | YEAR(per.birthdate) |
 +---------------------+---------------------+
-| Caleb Allen         |                NULL |
-| Patricio Calderon   |                NULL |
-| Emett Clark         |                NULL |
-| Don Blakely         |                NULL |
-| Brad Blumenthal     |                NULL |
-| Devin Marcus Miller |                NULL |
-| Venessia Valentino  |                NULL |
 | Terry Roth          |                NULL |
-| Richard Ruth        |                NULL |
-| Glendon Rich        |                NULL |
-| Peggy Greene        |                NULL |
-| Stephen Hibbert     |                NULL |
+| Venessia Valentino  |                NULL |
+| Patricio Calderon   |                NULL |
 | Samadu Jackson      |                NULL |
-| Rian Turner         |                NULL |
-| Bronagh Gallagher   |                NULL |
+| Caleb Allen         |                NULL |
+| Don Blakely         |                NULL |
+| Peggy Greene        |                NULL |
+| Devin Marcus Miller |                NULL |
+| Richard Ruth        |                NULL |
 | Angel Star Jones    |                NULL |
-| Linda Kaye          |                NULL |
+| Emett Clark         |                NULL |
+| Glendon Rich        |                NULL |
+| Rian Turner         |                NULL |
 | Sophie Griffiths    |                NULL |
+| Brad Blumenthal     |                NULL |
+| Stephen Hibbert     |                NULL |
+| Bronagh Gallagher   |                NULL |
+| Linda Kaye          |                NULL |
 | Emil Sitka          |                1914 |
 | Harvey Keitel       |                1939 |
 | Rene Beard          |                1941 |
@@ -240,7 +241,7 @@
 | Alexis Arquette     |                1969 |
 | Uma Thurman         |                1970 |
 +---------------------+---------------------+
-45 rows in set (3.23 sec)
+45 rows in set (0.00 sec)
 
 -- 6.
 +--------------------------------------------+------+
@@ -250,13 +251,13 @@
 | "Biography"                                | 1987 |
 | "Live with Regis and Kathie Lee"           | 1988 |
 | "The Charlie Rose Show"                    | 1991 |
+| "Gomorron"                                 | 1992 |
 | "HBO First Look"                           | 1992 |
 | "The Tonight Show with Jay Leno"           | 1992 |
-| "Gomorron"                                 | 1992 |
-| "Late Show with David Letterman"           | 1993 |
 | "GMTV"                                     | 1993 |
-| Pulp Fiction                               | 1994 |
+| "Late Show with David Letterman"           | 1993 |
 | "Inside the Actors Studio"                 | 1994 |
+| Pulp Fiction                               | 1994 |
 | "The O'Reilly Factor"                      | 1996 |
 | "The Rosie O'Donnell Show"                 | 1996 |
 | Off the Menu: The Last Days of Chasen's    | 1997 |
@@ -264,14 +265,14 @@
 | "The View"                                 | 1997 |
 | "The Howard Stern Radio Show"              | 1998 |
 | "Friday Night with Jonathan Ross"          | 2001 |
-| "Ellen: The Ellen DeGeneres Show"          | 2003 |
 | Basic                                      | 2003 |
-| "Tavis Smiley"                             | 2004 |
+| "Ellen: The Ellen DeGeneres Show"          | 2003 |
 | "Le grand journal de Canal+"               | 2004 |
+| "Tavis Smiley"                             | 2004 |
 | Boffo! Tinseltown's Bombs and Blockbusters | 2006 |
 | "The Tonight Show with Conan O'Brien"      | 2009 |
 +--------------------------------------------+------+
-24 rows in set (2.82 sec)
+24 rows in set (0.00 sec)
 
 -- 7.
 +----------+
@@ -314,9 +315,9 @@
 | Serbo                  |  7.799999952316284 |
 | Hungarian              |  7.749999761581421 |
 | Turkish                |  7.733333269755046 |
+| Urdu                   |  7.300000190734863 |
 | Assamese               |  7.300000190734863 |
 | Filipino               |  7.300000190734863 |
-| Urdu                   |  7.300000190734863 |
 | None                   |               7.25 |
 | Hebrew                 | 7.1499998569488525 |
 | Persian                |  7.133333206176758 |
@@ -340,8 +341,8 @@
 | French                 |  6.603703706352799 |
 | Norwegian              |  6.600000063578288 |
 | Telugu                 |  6.549999952316284 |
-| Klingon                |                6.5 |
 | Tamil                  |                6.5 |
+| Klingon                |                6.5 |
 | Dutch                  |  6.425000011920929 |
 | Malayalam              |              6.375 |
 | Spanish                |  6.343478265015976 |
@@ -362,16 +363,16 @@
 | Danish                 |                5.5 |
 | Finnish                |  5.333333373069763 |
 | Scottish Gaelic        |                  5 |
-| Romanian               |  4.300000190734863 |
 | Thai                   |  4.300000190734863 |
+| Romanian               |  4.300000190734863 |
 | Inuktitut              |                  4 |
 | Esperanto              |                3.5 |
 | Korean                 |  3.299999952316284 |
 +------------------------+--------------------+
-58 rows in set (0.03 sec)
+58 rows in set (0.02 sec)
 
 -- 11.
-Empty set (6.19 sec)
+Empty set (0.28 sec)
 
 -- 12.
 +-----------+--------+
@@ -379,7 +380,7 @@ Empty set (6.19 sec)
 +-----------+--------+
 | "20 to 1" |      9 |
 +-----------+--------+
-1 row in set (0.05 sec)
+1 row in set (0.00 sec)
 
 -- 13.
 +----------+
@@ -387,7 +388,7 @@ Empty set (6.19 sec)
 +----------+
 |     5405 |
 +----------+
-1 row in set (0.17 sec)
+1 row in set (0.06 sec)
 
 -- 14.
 +-------------+---------------------+
@@ -422,7 +423,7 @@ Empty set (6.19 sec)
 | War         |   6.693805702761108 |
 | Western     |   6.237180371983099 |
 +-------------+---------------------+
-28 rows in set (0.28 sec)
+28 rows in set (0.19 sec)
 
 -- 15.
 +-----------+------+
@@ -443,7 +444,7 @@ Empty set (6.19 sec)
 | War       |   26 |
 | Biography |   15 |
 +-----------+------+
-14 rows in set (0.02 sec)
+14 rows in set (0.00 sec)
 
 -- 16.
 +-----------------------+--------------+
@@ -451,7 +452,7 @@ Empty set (6.19 sec)
 +-----------------------+--------------+
 | "Saturday Night Live" |      1015408 |
 +-----------------------+--------------+
-1 row in set (25.52 sec)
+1 row in set (25.47 sec)
 
 -- 17.
 +----------+
@@ -459,7 +460,7 @@ Empty set (6.19 sec)
 +----------+
 |     5930 |
 +----------+
-1 row in set (3.76 sec)
+1 row in set (3.97 sec)
 
 -- 18.
 +-----------+-----------+--------+
@@ -467,4 +468,4 @@ Empty set (6.19 sec)
 +-----------+-----------+--------+
 | Romance   | Drama     |   5799 |
 +-----------+-----------+--------+
-1 row in set (0.58 sec)
+1 row in set (0.60 sec)
