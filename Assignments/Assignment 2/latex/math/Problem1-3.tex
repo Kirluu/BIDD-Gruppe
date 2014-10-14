@@ -13,5 +13,5 @@
 
 The left-hand side relation $R_{LHS}$ is a cartesian product of $R_1$ and $R_2$ where $cpr$ in $R_1$ has been renamed to $id$.
 The cartesian product is therefore well-defined since there aren't any common attributes, but this also results in the LHS having four attributes, whereas the RHS has three attributes since it's a join on $R_1$ and $R_2$ where $cpr$ in both relations has been renamed to $id$. Even though the tuples from the LHS relation will be the ones where $cpr$ is equal to $id$ there will be another attribute in its tuples, meaning this equality is false.
-If however there was a projection for $id, name, address$ with the same selection this equaity would be true.
+If however there was a projection for $id, name, address$ with the same selection this equaity would be true.\\\\
 
