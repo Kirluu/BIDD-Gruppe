@@ -131,18 +131,21 @@ ORDER BY c DESC
 LIMIT 1;
 
 -- 17. (not done)
-SELECT *
-FROM(	SELECT pro.id prodId1, per.id perId1
-		FROM Production pro
-		INNER JOIN Role r ON pro.id = r.productionId
-		INNER JOIN Person per ON r.personId = per.id
-		WHERE r.roleName = 'actor')
+SELECT COUNT(*)
+FROM (
+	SELECT per.id actorPerId
+	FROM Production pro
+	INNER JOIN Role r ON pro.id = r.productionId
+	INNER JOIN Person per ON r.personId = per.id
+	WHERE r.roleName = 'actor'
+	GROUP BY actorPerId)
 AS actors
-WHERE actors.perId1 IN (SELECT per.id perId2
-						FROM Production pro
-						INNER JOIN Role r ON pro.id = r.productionId
-						INNER JOIN Person per ON r.personId = per.id
-						WHERE r.roleName = 'director');
+WHERE actors.actorPerId IN (
+	SELECT per.id directorPerId
+	FROM Production pro
+	INNER JOIN Role r ON pro.id = r.productionId
+	INNER JOIN Person per ON r.personId = per.id
+	WHERE r.roleName = 'director');
 
 -- 18.
 SELECT gt1.genreName, gt2.genreName, amount
