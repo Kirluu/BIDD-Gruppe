@@ -153,10 +153,10 @@ ORDER BY s DESC;
 
 -- 16.
 SELECT (SELECT title FROM Production WHERE id = fromId) title, c twoLinkCount FROM (
-	SELECT r1.fromId, COUNT(*) c FROM Reference r1
-	INNER JOIN (SELECT r2.id id2, r2.fromId fromId2, r2.toId toId2 FROM Reference r2) s1 ON r1.toId = s1.fromId2
-	INNER JOIN (SELECT r3.id id3, r3.fromId fromId3, r3.toId toId3 FROM Reference r3) s2 ON s1.toId2 = s2.fromId3
-	GROUP BY r1.fromId
+	SELECT ref1.fromId, COUNT(*) c FROM Reference ref1
+	INNER JOIN (SELECT * FROM Reference r2) ref2 ON ref1.toId = ref2.fromId
+	INNER JOIN (SELECT * FROM Reference r3) ref3 ON ref2.toId = ref3.fromId
+	GROUP BY ref1.fromId
 ) sLast
 ORDER BY c DESC
 LIMIT 1;
