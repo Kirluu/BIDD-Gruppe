@@ -10,7 +10,8 @@ CREATE INDEX genreNameIndex ON GenreType (genreName);
 CREATE INDEX roleNameIndex ON Role (roleName);
 \end{lstlisting}
 
-\begin{table}[ht]
+\begin{figure}[ht]
+	\centering
 	\begin{tabular}{c|c|c}
 		Query & Before indices & After indices\\
 		\hline
@@ -30,9 +31,10 @@ CREATE INDEX roleNameIndex ON Role (roleName);
 		14 & 0.28 sec & 0.19 sec\\
 		15 & 0.00 sec & 0.00 sec\\
 		16 & 25.54 sec & 25.36 sec\\
-		17 & 3.63 sec & 4.02 sec\\
-		18 & 0.58 sec & 0.60 sec
+		17 & 3.63 sec & 2.80 sec\\
+		18 & 0.58 sec & 0.50 sec
 	\end{tabular}
-\end{table}
+	\caption{Query time consumption with and without indices.}
+\end{figure}
 
-\subsection{Explanation}
+\subsection{Discussion}
