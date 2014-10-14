@@ -1082,10 +1082,10 @@ By selecing the genre name of the genre type which fits to a certain production,
 \subsection{Query 16}
 \begin{lstlisting}[language=sql]
 SELECT (SELECT title FROM Production WHERE id = fromId) title, c twoLinkCount FROM (
-	SELECT r1.fromId, COUNT(*) c FROM Reference r1
-	INNER JOIN (SELECT r2.id id2, r2.fromId fromId2, r2.toId toId2 FROM Reference r2) s1 ON r1.toId = s1.fromId2
-	INNER JOIN (SELECT r3.id id3, r3.fromId fromId3, r3.toId toId3 FROM Reference r3) s2 ON s1.toId2 = s2.fromId3
-	GROUP BY r1.fromId
+	SELECT ref1.fromId, COUNT(*) c FROM Reference ref1
+	INNER JOIN (SELECT * FROM Reference r2) ref2 ON ref1.toId = ref2.fromId
+	INNER JOIN (SELECT * FROM Reference r3) ref3 ON ref2.toId = ref3.fromId
+	GROUP BY ref1.fromId
 ) sLast
 ORDER BY c DESC
 LIMIT 1;
@@ -1108,7 +1108,7 @@ LIMIT 1;
 +----+--------------------+------------+--------+---------------+-------------+
 |  1 | PRIMARY            | <derived3> | ALL    | NULL          | NULL        |
 |  3 | DERIVED            | <derived4> | ALL    | NULL          | NULL        |
-|  3 | DERIVED            | r1         | ref    | fromId,toId   | toId        |
+|  3 | DERIVED            | ref1       | ref    | fromId,toId   | toId        |
 |  3 | DERIVED            | <derived5> | ref    | <auto_key0>   | <auto_key0> |
 |  5 | DERIVED            | r3         | ALL    | NULL          | NULL        |
 |  4 | DERIVED            | r2         | ALL    | NULL          | NULL        |
@@ -1119,8 +1119,8 @@ LIMIT 1;
 ---------+--------------+---------+----------------------------------------------+
  NULL    | NULL         | 7061600 | Using filesort                               |
  NULL    | NULL         |  141226 | Using where; Using temporary; Using filesort |
- 5       | s1.fromId2   |       5 | NULL                                         |
- 5       | s1.toId2     |      10 | NULL                                         |
+ 5       | ref2.fromId  |       5 | NULL                                         |
+ 5       | ref2.toId    |      10 | NULL                                         |
  NULL    | NULL         |  141226 | NULL                                         |
  NULL    | NULL         |  141226 | NULL                                         |
  4       | sLast.fromId |       1 | NULL                                         |
