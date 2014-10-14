@@ -1,0 +1,14 @@
+(\rho_{[cpr \mapsto id]}R_1) \times R_2 = (\rho_{[cpr \mapsto id]}R_1) \times (\rho_{[cpr \mapsto id]}R_2)\\
+
+\begin{table}[h]
+\begin{tabular}{ll}
+ R_{LHS} & R_{RHS}  \\
+ (\rho_{[cpr \mapsto id]}R_1) \times R_2 & (\rho_{[cpr \mapsto id]R_1}) \times (\rho_{[cpr \mapsto id]R_2})  \\
+ A(R_{LHS}) = (\rho_{[cpr\mapsto id]}(A(R_1)) \times A(R_2) & A(R_{RHS}) = (\rho_{[cpr\mapsto id]}A(R_1)) \times (\rho_{[cpr \mapsto id]}A(R_2))  \\
+ A(R_{LHS}) = \{id, address\} \times \{cpr, name\} & A(R_{RHS}) = \{id, address\} \times \{id, name\}  \\
+ A(R_{LHS}) = \{id, address, cpr, name\} & A(R_{RHS}) = \{id, address, id, name\}(undefined)
+\end{tabular}
+\end{table}
+
+The equality is undefined as the righthand side relation R_{RHS} doesn't abide with the well-defined rule of cartesian product, which is that the relations must not have any common attributes. Even though a table like the above is created in MySQL when you try to select \em{id}\em it won't know which \em{id}\id attribute you are referring to.
+For this equality to be true the RHS should not rename the cpr in R_2.
