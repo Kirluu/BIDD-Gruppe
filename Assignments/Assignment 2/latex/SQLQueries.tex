@@ -855,21 +855,24 @@ This query selects all the ids of all the people starring in Pulp Fiction and no
 
 \subsection{Query 12}
 \begin{lstlisting}[language=sql]
-SELECT pro.title, MAX(pro.imdbRating) AS rating
+SELECT pro.title proTitle, MAX(pro.imdbRating) rating
 FROM Production pro
 INNER JOIN Role r ON pro.id = r.productionId
 INNER JOIN Person per ON r.personId = per.id
-WHERE per.name = 'John Travolta';
+WHERE per.name = 'John Travolta'
+GROUP BY proTitle
+ORDER BY rating DESC
+LIMIT 1;
 \end{lstlisting}
 
 \subsubsection{Transcript}
 \begin{lstlisting}[language=bash]
-+-----------+--------+
-| title     | rating |
-+-----------+--------+
-| "20 to 1" |      9 |
-+-----------+--------+
- row in set (0.00 sec)
++--------------+--------+
+| proTitle     | rating |
++--------------+--------+
+| Pulp Fiction |      9 |
++--------------+--------+
+1 row in set (0.00 sec)
 \end{lstlisting}
 
 \subsubsection{Query plan}
@@ -881,13 +884,13 @@ WHERE per.name = 'John Travolta';
 |  1 | SIMPLE      | r     | ref    | PRIMARY,productionId | PRIMARY   |
 |  1 | SIMPLE      | pro   | eq_ref | PRIMARY              | PRIMARY   |
 +----+-------------+-------+--------+----------------------+-----------+
----------+-----------------------+------+-------------+
- key_len | ref                   | rows | Extra       |
----------+-----------------------+------+-------------+
- 32      | const                 |    1 | Using where |
- 4       | itumdb.per.id         |    6 | Using index |
- 4       | itumdb.r.productionId |    1 | NULL        |
----------+-----------------------+------+-------------+
+---------+-----------------------+------+----------------------------------------------+
+ key_len | ref                   | rows | Extra                                        |
+---------+-----------------------+------+----------------------------------------------+
+ 32      | const                 |    1 | Using where; Using temporary; Using filesort |
+ 4       | itumdb.per.id         |    6 | Using index                                  |
+ 4       | itumdb.r.productionId |    1 | NULL                                         |
+---------+-----------------------+------+----------------------------------------------+
 \end{lstlisting}
 
 \subsubsection{Explanation}
@@ -933,7 +936,7 @@ WHERE gender = 'f' AND (
 \subsubsection{Explanation}
 
 
-subsection{Query 14}
+\subsection{Query 14}
 \begin{lstlisting}[language=sql]
 SELECT gt.genreName, AVG(pro.imdbRating)
 FROM Production pro
