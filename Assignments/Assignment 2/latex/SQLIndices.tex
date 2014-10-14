@@ -13,7 +13,7 @@ CREATE INDEX roleNameIndex ON Role (roleName);
 \begin{figure}[ht]
 	\centering
 	\begin{tabular}{c|c|c}
-		Query & Before indices & After indices\\
+		\textbf{Query} & \textbf{Before indices} & \textbf{After indices}\\
 		\hline
 		1 & 0.02 sec & 0.02 sec\\
 		2 & 0.00 sec & 0.00 sec\\
@@ -38,3 +38,70 @@ CREATE INDEX roleNameIndex ON Role (roleName);
 \end{figure}
 
 \subsection{Discussion}
+
+\begin{figure}[ht]
+	\centering
+	\begin{tabular}{c|c|c}
+		\textbf{Index} & \textbf{Used key in query} & \textbf{Possible key in query}\\
+		\hline
+		\textbf{nameIndex}
+		&
+			\parbox{3cm}{
+				\begin{itemize}
+					\item Query 3
+					\item Query 4
+					\item Query 6
+					\item Query 12
+					\item Query 13
+				\end{itemize}
+			}
+		&
+			\parbox{3cm}{
+				\begin{itemize}
+					\item Query 17
+				\end{itemize}
+			}
+		\\\hline
+		\textbf{titleIndex}
+		&
+			\parbox{3cm}{
+				\begin{itemize}
+					\item Query 5
+					\item Query 11
+					\item Query 18
+				\end{itemize}
+			}
+		&
+			\parbox{3cm}{
+				\begin{itemize}
+					\item Query 15
+				\end{itemize}
+			}
+		\\\hline
+		\textbf{genreNameIndex}
+		&
+			\parbox{3cm}{
+				\begin{itemize}
+					\item Query 14
+					\item Query 18
+				\end{itemize}
+			}
+		&
+		\\\hline
+		\textbf{roleNameIndex}
+		&
+			\parbox{3cm}{
+				\begin{itemize}
+					\item Query 17
+				\end{itemize}
+			}
+		&
+			\parbox{3cm}{
+				\begin{itemize}
+					\item Query 4
+					\item Query 11
+				\end{itemize}
+			}
+	\end{tabular}
+	\caption{Indices used as keys in queries}
+\end{figure}
