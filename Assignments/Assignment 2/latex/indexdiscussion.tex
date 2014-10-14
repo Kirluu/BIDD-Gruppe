@@ -1,0 +1,7 @@
+We have chosen to create indices based on the attributes that we saw being requested most throughout the 18 queries that were necessary to support at the least. Performance improvements were seen upon all additions of indices. In the case of the index for roleName, improvements were actually seen in only one of three relevant queries. This corresponds to the EXPLAIN results (possible and actual indices used), as can be seen below, as the roleName index was considered by two queries, but only actually used in a single query.\\
+
+Note that there is a possibility of the created indices being preferred where not appropriate. This could result in worsened performance for one of the required queries, as a mis-pick here would ultimately result in a suboptimal query plan.\\
+
+Query nr. 16 is an unfortunate case, as the query written does not involve any attributes other than primary keys, and thus no possible indices that can be created would make any difference.\\
+
+It can be observed that it is not in all cases that the indices we created are being used by the queries, despite it indeed being a possibility.
