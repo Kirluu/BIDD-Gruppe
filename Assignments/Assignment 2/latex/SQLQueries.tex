@@ -1,3 +1,7 @@
+\lstset{
+	basicstyle=\tiny
+}
+
 \section{SQL Queries}
 \subsection{Query 1}
 \begin{lstlisting}[language=sql]
@@ -14,6 +18,20 @@ WHERE language='Danish';
 |      419 |
 +----------+
 1 row in set (0.02 sec)
+\end{lstlisting}
+
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+------------+------+---------------+
+| id | select_type | table      | type | possible_keys |
++----+-------------+------------+------+---------------+
+|  1 | SIMPLE      | Production | ALL  | NULL          |
++----+-------------+------------+------+---------------+
+------+---------+------+-------+-------------+
+ key  | key_len | ref  | rows  | Extra       |
+------+---------+------+-------+-------------+
+ NULL | NULL    | NULL | 59556 | Using where |
+------+---------+------+-------+-------------+
 \end{lstlisting}
 
 \subsubsection{Explanation}
@@ -55,6 +73,28 @@ GROUP BY year;
 | 2012 |       17 |
 +------+----------+
 21 rows in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+------------+--------+---------------+
+| id | select_type | table      | type   | possible_keys |
++----+-------------+------------+--------+---------------+
+|  1 | SIMPLE      | Rating     | index  | productionId  |
+|  1 | SIMPLE      | Production | eq_ref | PRIMARY       |
++----+-------------+------------+--------+---------------+
+--------------+---------+----------------------------+
+ key          | key_len | ref                        |
+--------------+---------+----------------------------+
+ productionId | 5       | NULL                       |
+ PRIMARY      | 4       | itumdb.Rating.productionId |
+--------------+---------+----------------------------+
+------+-----------------------------------------------------------+
+ rows | Extra                                                     |
+------+-----------------------------------------------------------+
+  485 | Using where; Using index; Using temporary; Using filesort |
+    1 | NULL                                                      |
+------+-----------------------------------------------------------+
 \end{lstlisting}
 
 \subsubsection{Explanation}
@@ -231,6 +271,56 @@ WHERE NOT EXISTS (
 141 rows in set (0.00 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+--------------------+------------+--------+
+| id | select_type        | table      | type   |
++----+--------------------+------------+--------+
+|  1 | PRIMARY            | <derived2> | ALL    |
+|  6 | DEPENDENT SUBQUERY | <derived7> | ref    |
+|  7 | DERIVED            | r1         | ref    |
+|  7 | DERIVED            | production | eq_ref |
+|  7 | DERIVED            | r2         | ref    |
+| 10 | SUBQUERY           | person     | ref    |
+|  9 | SUBQUERY           | person     | ref    |
+|  2 | DERIVED            | person     | range  |
+|  2 | DERIVED            | role       | ref    |
+|  2 | DERIVED            | production | eq_ref |
+|  2 | DERIVED            | production | eq_ref |
++----+--------------------+------------+--------+
+----------------------+-------------+---------+
+ possible_keys        | key         | key_len |
+----------------------+-------------+---------+
+ NULL                 | NULL        | NULL    |
+ <auto_key0>          | <auto_key0> | 4       |
+ PRIMARY,productionId | PRIMARY     | 4       |
+ PRIMARY              | PRIMARY     | 4       |
+ PRIMARY,productionId | PRIMARY     | 8       |
+ nameIndex            | nameIndex   | 32      |
+ nameIndex            | nameIndex   | 32      |
+ PRIMARY,nameIndex    | nameIndex   | 32      |
+ PRIMARY,productionId | PRIMARY     | 4       |
+ PRIMARY              | PRIMARY     | 4       |
+ PRIMARY              | PRIMARY     | 4       |
+----------------------+-------------+---------+
+------------------------------+------+-------------------------------------------+
+ ref                          | rows | Extra                                     |
+------------------------------+------+-------------------------------------------+
+ NULL                         |    2 | Using where                               |
+ s1.id                        |    2 | Using index                               |
+ const                        |    6 | Using where; Using index; Start temporary |
+ itumdb.r1.productionId       |    1 | Using index                               |
+ const,itumdb.r1.productionId |    1 | Using where; Using index; End temporary   |
+ const                        |    1 | Using where                               |
+ const                        |    1 | Using where                               |
+ NULL                         |    2 | Using where; Start temporary              |
+ itumdb.person.id             |    6 | Using index                               |
+ itumdb.role.productionId     |    1 | NULL                                      |
+ itumdb.role.productionId     |    1 | Using index; End temporary                |
+------------------------------+------+-------------------------------------------+
+
+\end{lstlisting}
+
 \subsubsection{Explanation}
 
 
@@ -242,7 +332,6 @@ SELECT COUNT(*) FROM (
 	WHERE p.name LIKE 'C%' AND (r.roleName = 'actor' OR  r.roleName = 'director')
 	GROUP BY p.id) s1;
 \end{lstlisting}
-
 \subsubsection{Transcript}
 \begin{lstlisting}[language=bash]
 +----------+
@@ -251,6 +340,24 @@ SELECT COUNT(*) FROM (
 |    10660 |
 +----------+
 1 row in set (0.19 sec)
+\end{lstlisting}
+
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+------------+-------+-----------------------+-----------+---------+
+| id | select_type | table      | type  | possible_keys         | key       | key_len |
++----+-------------+------------+-------+-----------------------+-----------+---------+
+|  1 | PRIMARY     | <derived2> | ALL   | NULL                  | NULL      | NULL    |
+|  2 | DERIVED     | p          | range | PRIMARY,nameIndex     | nameIndex | 32      |
+|  2 | DERIVED     | r          | ref   | PRIMARY,roleNameIndex | PRIMARY   | 4       |
++----+-------------+------------+-------+-----------------------+-----------+---------+
+-------------+--------+----------------------------------------------+
+ ref         | rows   | Extra                                        |
+-------------+--------+----------------------------------------------+
+ NULL        | 129180 | NULL                                         |
+ NULL        |  21530 | Using where; Using temporary; Using filesort |
+ itumdb.p.id |      6 | Using where; Using index                     |
+-------------+--------+----------------------------------------------+
 \end{lstlisting}
 
 \subsubsection{Explanation}
@@ -320,7 +427,26 @@ ORDER BY per.birthdate ASC;
 45 rows in set (0.00 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+-------+--------+----------------------+--------------+---------+
+| id | select_type | table | type   | possible_keys        | key          | key_len |
++----+-------------+-------+--------+----------------------+--------------+---------+
+|  1 | SIMPLE      | pro   | ref    | PRIMARY,titleIndex   | titleIndex   | 32      |
+|  1 | SIMPLE      | r     | ref    | PRIMARY,productionId | productionId | 4       |
+|  1 | SIMPLE      | per   | eq_ref | PRIMARY              | PRIMARY      | 4       |
++----+-------------+-------+--------+----------------------+--------------+---------+
+-------------------+------+----------------------------------------------+
+ ref               | rows | Extra                                        |
+-------------------+------+----------------------------------------------+
+ const             |    1 | Using where; Using temporary; Using filesort |
+ itumdb.pro.id     |   21 | Using index                                  |
+ itumdb.r.personId |    1 | NULL                                         |
+-------------------+------+----------------------------------------------+
+\end{lstlisting}
+
 \subsubsection{Explanation}
+This query selects the name and year of birth from the people who have a role in the production with the title "Pulp Fiction" and order the relation by ascending year of birth.
 
 
 \subsection{Query 6}
@@ -374,7 +500,42 @@ FROM(
 24 rows in set (0.00 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+-------+--------+----------------------+-----------+---------+
+| id | select_type | table | type   | possible_keys        | key       | key_len |
++----+-------------+-------+--------+----------------------+-----------+---------+
+|  1 | SIMPLE      | per1  | ref    | PRIMARY,nameIndex    | nameIndex | 32      |
+|  1 | SIMPLE      | per2  | ref    | PRIMARY,nameIndex    | nameIndex | 32      |
+|  1 | SIMPLE      | r1    | ref    | PRIMARY,productionId | PRIMARY   | 4       |
+|  1 | SIMPLE      | pro1  | eq_ref | PRIMARY              | PRIMARY   | 4       |
+|  1 | SIMPLE      | pro2  | eq_ref | PRIMARY              | PRIMARY   | 4       |
+|  1 | SIMPLE      | r2    | ref    | PRIMARY,productionId | PRIMARY   | 8       |
++----+-------------+-------+--------+----------------------+-----------+---------+
+---------------------------------------+------+
+ ref                                   | rows |
+---------------------------------------+------+
+ const                                 |    1 |
+ const                                 |    1 |
+ itumdb.per1.id                        |    6 |
+ itumdb.r1.productionId                |    1 |
+ itumdb.r1.productionId                |    1 |
+ itumdb.per2.id,itumdb.r1.productionId |    1 |
+---------------------------------------+------+
+----------------------------------------------+
+ Extra                                        |
+----------------------------------------------+
+ Using where; Using temporary; Using filesort |
+ Using where                                  |
+ Using index                                  |
+ Using where                                  |
+ Using index                                  |
+ Using index                                  |
+----------------------------------------------+
+\end{lstlisting}
+
 \subsubsection{Explanation}
+This query selects all the movies "John Travolta" has starred in and all the movies "Samadu Jackson" has starred in and lists the movies that have been made after 1980 (inclusive).
 
 
 \subsection{Query 7}
@@ -395,6 +556,22 @@ SELECT COUNT(*) FROM (
 1 row in set (0.00 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+------------+-------+---------------+
+| id | select_type | table      | type  | possible_keys |
++----+-------------+------------+-------+---------------+
+|  1 | PRIMARY     | <derived2> | ALL   | NULL          |
+|  2 | DERIVED     | Rating     | index | userId        |
++----+-------------+------------+-------+---------------+
+--------+---------+------+------+-------------+
+ key    | key_len | ref  | rows | Extra       |
+--------+---------+------+------+-------------+
+ NULL   | NULL    | NULL |  485 | NULL        |
+ userId | 5       | NULL |  485 | Using index |
+--------+---------+------+------+-------------+
+\end{lstlisting}
+
 \subsubsection{Explanation}
 
 
@@ -407,16 +584,39 @@ WHERE year < 2000 AND year >= 1990 ORDER BY imdbRating desc LIMIT 5;
 
 \subsubsection{Transcript}
 \begin{lstlisting}[language=bash]
-+----------------------------------------------------------------------+-------------------+
-| title                                                                | imdbRating        |
-+----------------------------------------------------------------------+-------------------+
-| The Men Who Danced: The story of Ted Shawn's Male Dancers; 1933-1940 | 9.399999618530273 |
-| "Byomekesh Bakshi"                                                   | 9.399999618530273 |
-| "The Beatles Anthology"                                              | 9.399999618530273 |
-| "The Civil War"                                                      | 9.399999618530273 |
-| "Fóstbræður"                                                         | 9.399999618530273 |
-+----------------------------------------------------------------------+-------------------+
++----------------------------------------------------------------------+
+| title                                                                |
++----------------------------------------------------------------------+
+| The Men Who Danced: The story of Ted Shawn's Male Dancers; 1933-1940 |
+| "Byomekesh Bakshi"                                                   |
+| "The Beatles Anthology"                                              |
+| "The Civil War"                                                      |
+| "Fóstbræður"                                                         |
++----------------------------------------------------------------------+
+-------------------+
+ imdbRating        |
+-------------------+
+ 9.399999618530273 |
+ 9.399999618530273 |
+ 9.399999618530273 |
+ 9.399999618530273 |
+ 9.399999618530273 |
+-------------------+
 5 rows in set (0.03 sec)
+\end{lstlisting}
+
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+------------+------+---------------+
+| id | select_type | table      | type | possible_keys |
++----+-------------+------------+------+---------------+
+|  1 | SIMPLE      | Production | ALL  | NULL          |
++----+-------------+------------+------+---------------+
+------+---------+------+-------+-----------------------------+
+ key  | key_len | ref  | rows  | Extra                       |
+------+---------+------+-------+-----------------------------+
+ NULL | NULL    | NULL | 59556 | Using where; Using filesort |
+------+---------+------+-------+-----------------------------+
 \end{lstlisting}
 
 \subsubsection{Explanation}
@@ -430,7 +630,6 @@ GROUP BY productionId HAVING amount >= 4
 ORDER BY rating desc
 LIMIT 5;
 \end{lstlisting}
-
 \subsubsection{Transcript}
 \begin{lstlisting}[language=bash]
 +--------+--------------------------+--------+
@@ -443,6 +642,22 @@ LIMIT 5;
 | 8.9000 | WALL·E                   |     10 |
 +--------+--------------------------+--------+
 5 rows in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+--------------------+------------+--------+---------------+--------------+
+| id | select_type        | table      | type   | possible_keys | key          |
++----+--------------------+------------+--------+---------------+--------------+
+|  1 | PRIMARY            | Rating     | index  | productionId  | productionId |
+|  2 | DEPENDENT SUBQUERY | Production | eq_ref | PRIMARY       | PRIMARY      |
++----+--------------------+------------+--------+---------------+--------------+
+---------+------+------+---------------------------------+
+ key_len | ref  | rows | Extra                           |
+---------+------+------+---------------------------------+
+ 5       | NULL |  485 | Using temporary; Using filesort |
+ 4       | func |    1 | NULL                            |
+---------+------+------+---------------------------------+
 \end{lstlisting}
 
 \subsubsection{Explanation}
@@ -524,6 +739,20 @@ ORDER BY average DESC;
 58 rows in set (0.02 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+-------+------+---------------+------+---------+------+
+| id | select_type | table | type | possible_keys | key  | key_len | ref  |
++----+-------------+-------+------+---------------+------+---------+------+
+|  1 | SIMPLE      | pro   | ALL  | NULL          | NULL | NULL    | NULL |
++----+-------------+-------+------+---------------+------+---------+------+
+-------+----------------------------------------------+
+ rows  | Extra                                        |
+-------+----------------------------------------------+
+ 59556 | Using where; Using temporary; Using filesort |
+-------+----------------------------------------------+
+\end{lstlisting}
+
 \subsubsection{Explanation}
 
 
@@ -554,7 +783,7 @@ WHERE per1.id NOT IN
         ) MoviesOfPulpFictionCastMinusPulpFiction
         GROUP BY productionId HAVING c > 1
     ) MoviesWithMoreThanOnePulpFictionActor 
-    INNER JOIN role r3 ON r3.productionId = MoviesWithMoreThanOnePulpFictionActor.productionId
+   INNER JOIN role r3 ON r3.productionId = MoviesWithMoreThanOnePulpFictionActor.productionId
     AND r3.productionId != (SELECT id FROM production WHERE title ='Pulp Fiction')
 );
 \end{lstlisting}
@@ -564,7 +793,64 @@ WHERE per1.id NOT IN
 Empty set (0.28 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+------------+--------+------------------------------------+
+| id | select_type | table      | type   | possible_keys                      |
++----+-------------+------------+--------+------------------------------------+
+|  1 | PRIMARY     | pro1       | ref    | PRIMARY,titleIndex                 |
+|  1 | PRIMARY     | r1         | ref    | PRIMARY,productionId,roleNameIndex |
+|  1 | PRIMARY     | per1       | eq_ref | PRIMARY                            |
+|  2 | SUBQUERY    | <derived3> | ALL    | NULL                               |
+|  2 | SUBQUERY    | r3         | ref    | PRIMARY,productionId               |
+|  7 | SUBQUERY    | production | ref    | titleIndex                         |
+|  3 | DERIVED     | <derived4> | ALL    | NULL                               |
+|  4 | DERIVED     | <derived5> | ALL    | NULL                               |
+|  4 | DERIVED     | r2         | ref    | PRIMARY,productionId,roleNameIndex |
+|  6 | SUBQUERY    | production | ref    | titleIndex                         |
+|  5 | DERIVED     | pro1       | ref    | PRIMARY,titleIndex                 |
+|  5 | DERIVED     | r1         | ref    | PRIMARY,productionId,roleNameIndex |
+|  5 | DERIVED     | per1       | eq_ref | PRIMARY                            |
++----+-------------+------------+--------+------------------------------------+
+--------------+---------+----------------------------------------------------+
+ key          | key_len | ref                                                |
+--------------+---------+----------------------------------------------------+
+ titleIndex   | 32      | const                                              |
+ productionId | 4       | itumdb.pro1.id                                     |
+ PRIMARY      | 4       | itumdb.r1.personId                                 |
+ NULL         | NULL    | NULL                                               |
+ productionId | 4       | MoviesWithMoreThanOnePulpFictionActor.productionId |
+ titleIndex   | 32      | const                                              |
+ NULL         | NULL    | NULL                                               |
+ NULL         | NULL    | NULL                                               |
+ PRIMARY      | 4       | ActorsInPulpFiction.IdOfActorsInPulpFiction        |
+ titleIndex   | 32      | const                                              |
+ titleIndex   | 32      | const                                              |
+ productionId | 4       | itumdb.pro1.id                                     |
+ PRIMARY      | 4       | itumdb.r1.personId                                 |
+--------------+---------+----------------------------------------------------+
+------+---------------------------------+
+ rows | Extra                           |
+------+---------------------------------+
+    1 | Using where; Using temporary    |
+   21 | Using where; Using index        |
+    1 | Using index                     |
+  126 | Using where                     |
+   21 | Using index                     |
+    1 | Using where                     |
+  126 | Using temporary; Using filesort |
+   21 | NULL                            |
+    6 | Using where; Using index        |
+    1 | Using where                     |
+    1 | Using where                     |
+   21 | Using where; Using index        |
+    1 | Using index                     |
+------+---------------------------------+
+
+\end{lstlisting}
+
 \subsubsection{Explanation}
+This query selects all the ids of all the people starring in Pulp Fiction and not starring in a film which stars more than one Pulp Fiction actor. The latter relation is found by taking all the movies which have starred actors who have also starred in Pulp Fiction and keeping the movies which star more than one Pulp Fiction actor. Then all the roles in those movies are found and thereby also the ids of all actors who star in films which star in more than one Pulp Fiction actor.
 
 
 \subsection{Query 12}
@@ -583,7 +869,25 @@ WHERE per.name = 'John Travolta';
 +-----------+--------+
 | "20 to 1" |      9 |
 +-----------+--------+
-1 row in set (0.00 sec)
+ row in set (0.00 sec)
+\end{lstlisting}
+
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+-------+--------+----------------------+-----------+
+| id | select_type | table | type   | possible_keys        | key       |
++----+-------------+-------+--------+----------------------+-----------+
+|  1 | SIMPLE      | per   | ref    | PRIMARY,nameIndex    | nameIndex |
+|  1 | SIMPLE      | r     | ref    | PRIMARY,productionId | PRIMARY   |
+|  1 | SIMPLE      | pro   | eq_ref | PRIMARY              | PRIMARY   |
++----+-------------+-------+--------+----------------------+-----------+
+---------+-----------------------+------+-------------+
+ key_len | ref                   | rows | Extra       |
+---------+-----------------------+------+-------------+
+ 32      | const                 |    1 | Using where |
+ 4       | itumdb.per.id         |    6 | Using index |
+ 4       | itumdb.r.productionId |    1 | NULL        |
+---------+-----------------------+------+-------------+
 \end{lstlisting}
 
 \subsubsection{Explanation}
@@ -608,10 +912,28 @@ WHERE gender = 'f' AND (
 1 row in set (0.06 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+--------+------+---------------+
+| id | select_type | table  | type | possible_keys |
++----+-------------+--------+------+---------------+
+|  1 | PRIMARY     | Person | ALL  | NULL          |
+|  3 | SUBQUERY    | Person | ref  | nameIndex     |
+|  2 | SUBQUERY    | Person | ref  | nameIndex     |
++----+-------------+--------+------+---------------+
+-----------+---------+-------+--------+-------------+
+ key       | key_len | ref   | rows   | Extra       |
+-----------+---------+-------+--------+-------------+
+ NULL      | NULL    | NULL  | 167098 | Using where |
+ nameIndex | 32      | const |      3 | Using where |
+ nameIndex | 32      | const |      3 | Using where |
+-----------+---------+-------+--------+-------------+
+\end{lstlisting}
+
 \subsubsection{Explanation}
 
 
-\subsection{Query 14}
+subsection{Query 14}
 \begin{lstlisting}[language=sql]
 SELECT gt.genreName, AVG(pro.imdbRating)
 FROM Production pro
@@ -657,6 +979,24 @@ GROUP BY gt.genreName;
 28 rows in set (0.19 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+-------+--------+------------------------+----------------+
+| id | select_type | table | type   | possible_keys          | key            |
++----+-------------+-------+--------+------------------------+----------------+
+|  1 | SIMPLE      | gt    | index  | PRIMARY,genreNameIndex | genreNameIndex |
+|  1 | SIMPLE      | g     | ref    | PRIMARY,genreTypeId    | genreTypeId    |
+|  1 | SIMPLE      | pro   | eq_ref | PRIMARY                | PRIMARY        |
++----+-------------+-------+--------+------------------------+----------------+
+---------+-----------------------+------+-------------+
+ key_len | ref                   | rows | Extra       |
+---------+-----------------------+------+-------------+
+ 77      | NULL                  |   28 | Using index |
+ 4       | itumdb.gt.id          | 2490 | Using index |
+ 4       | itumdb.g.productionId |    1 | NULL        |
+---------+-----------------------+------+-------------+
+\end{lstlisting}
+
 \subsubsection{Explanation}
 
 
@@ -698,7 +1038,42 @@ ORDER BY s DESC;
 14 rows in set (0.00 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+--------------------+------------+--------+---------------------+--------------+
+| id | select_type        | table      | type   | possible_keys       | key          |
++----+--------------------+------------+--------+---------------------+--------------+
+|  1 | PRIMARY            | <derived2> | ALL    | NULL                | NULL         |
+|  2 | DERIVED            | <derived4> | ALL    | NULL                | NULL         |
+|  2 | DERIVED            | g          | ref    | PRIMARY,genreTypeId | PRIMARY      |
+|  4 | DERIVED            | r          | index  | productionId        | productionId |
+|  4 | DERIVED            | pro        | eq_ref | PRIMARY,titleIndex  | PRIMARY      |
+|  3 | DEPENDENT SUBQUERY | GenreType  | eq_ref | PRIMARY             | PRIMARY      |
++----+--------------------+------------+--------+---------------------+--------------+
+---------+-----------------------+------+
+ key_len | ref                   | rows |
+---------+-----------------------+------+
+ NULL    | NULL                  |  485 |
+ NULL    | NULL                  |  485 |
+ 4       | prods.proId           |    1 |
+ 5       | NULL                  |  485 |
+ 4       | itumdb.r.productionId |    1 |
+ 4       | func                  |    1 |
+---------+-----------------------+------+
+-----------------------------------------------------------+
+ Extra                                                     |
+-----------------------------------------------------------+
+ Using where; Using filesort                               |
+ Using temporary; Using filesort                           |
+ Using index                                               |
+ Using where; Using index; Using temporary; Using filesort |
+ Using index                                               |
+ NULL                                                      |
+-----------------------------------------------------------+
+\end{lstlisting}
+
 \subsubsection{Explanation}
+By selecing the genre name of the genre type which fits to a certain production, and then taking the sum of the count from the inner select, and within that select counting the amount of ratings for that production from various users (we do not care which user rated what), we may reach the correct answer for this problem, as we are able to look at the number of ratings for each production, meanwhile inspecting what genre that production contains. In the end, we make sure we only look at genres with at least 10 total ratings to movies of that genre, by using the calculated sum of ratings.
 
 
 \subsection{Query 16}
@@ -721,6 +1096,32 @@ LIMIT 1;
 | "Saturday Night Live" |      1015408 |
 +-----------------------+--------------+
 1 row in set (25.47 sec)
+\end{lstlisting}
+
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+--------------------+------------+--------+---------------+-------------+
+| id | select_type        | table      | type   | possible_keys | key         |
++----+--------------------+------------+--------+---------------+-------------+
+|  1 | PRIMARY            | <derived3> | ALL    | NULL          | NULL        |
+|  3 | DERIVED            | <derived4> | ALL    | NULL          | NULL        |
+|  3 | DERIVED            | r1         | ref    | fromId,toId   | toId        |
+|  3 | DERIVED            | <derived5> | ref    | <auto_key0>   | <auto_key0> |
+|  5 | DERIVED            | r3         | ALL    | NULL          | NULL        |
+|  4 | DERIVED            | r2         | ALL    | NULL          | NULL        |
+|  2 | DEPENDENT SUBQUERY | Production | eq_ref | PRIMARY       | PRIMARY     |
++----+--------------------+------------+--------+---------------+-------------+
+---------+--------------+---------+----------------------------------------------+
+ key_len | ref          | rows    | Extra                                        |
+---------+--------------+---------+----------------------------------------------+
+ NULL    | NULL         | 7061600 | Using filesort                               |
+ NULL    | NULL         |  141226 | Using where; Using temporary; Using filesort |
+ 5       | s1.fromId2   |       5 | NULL                                         |
+ 5       | s1.toId2     |      10 | NULL                                         |
+ NULL    | NULL         |  141226 | NULL                                         |
+ NULL    | NULL         |  141226 | NULL                                         |
+ 4       | sLast.fromId |       1 | NULL                                         |
+---------+--------------+---------+----------------------------------------------+
 \end{lstlisting}
 
 \subsubsection{Explanation}
@@ -755,7 +1156,46 @@ WHERE actors.actorPerId IN (
 1 row in set (3.97 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+------------+--------+------------------------------------+
+| id | select_type | table      | type   | possible_keys                      |
++----+-------------+------------+--------+------------------------------------+
+|  1 | PRIMARY     | r          | ref    | PRIMARY,productionId,roleNameIndex |
+|  1 | PRIMARY     | pro        | eq_ref | PRIMARY                            |
+|  1 | PRIMARY     | per        | eq_ref | PRIMARY                            |
+|  1 | PRIMARY     | <derived2> | ref    | <auto_key0>                        |
+|  2 | DERIVED     | per        | index  | PRIMARY,nameIndex                  |
+|  2 | DERIVED     | r          | ref    | PRIMARY,productionId,roleNameIndex |
+|  2 | DERIVED     | pro        | eq_ref | PRIMARY                            |
++----+-------------+------------+--------+------------------------------------+
+---------------+---------+-----------------------+
+ key           | key_len | ref                   |
+---------------+---------+-----------------------+
+ roleNameIndex | 152     | const                 |
+ PRIMARY       | 4       | itumdb.r.productionId |
+ PRIMARY       | 4       | itumdb.r.personId     |
+ <auto_key0>   | 4       | itumdb.r.personId     |
+ PRIMARY       | 4       | NULL                  |
+ PRIMARY       | 4       | itumdb.per.id         |
+ PRIMARY       | 4       | itumdb.r.productionId |
+---------------+---------+-----------------------+
+--------+-------------------------------------------+
+ rows   | Extra                                     |
+--------+-------------------------------------------+
+ 152690 | Using where; Using index; Start temporary |
+      1 | Using index                               |
+      1 | Using index                               |
+     10 | Using index; End temporary                |
+ 167098 | Using index                               |
+      6 | Using where; Using index                  |
+      1 | Using index                               |
+--------+-------------------------------------------+
+
+\end{lstlisting}
+
 \subsubsection{Explanation}
+This may be somewhat self-explanatory, however perhaps not entirely. At first, a selection is made to retrieve the Ids of all persons who have any acting role in the database. Followingly a similar selection is made to instead retrieve the Ids of all persons who have any director role in the database. Once these two selections are up and running, it's easy enough to note that we can count the amount of acting persons whose Ids also appear in the selection of persons with directing roles. 
 
 
 \subsection{Query 18}
@@ -786,4 +1226,29 @@ LIMIT 1;
 1 row in set (0.60 sec)
 \end{lstlisting}
 
+\subsubsection{Query plan}
+\begin{lstlisting}[language=bash]
++----+-------------+------------+--------+---------------+----------------+---------+
+| id | select_type | table      | type   | possible_keys | key            | key_len |
++----+-------------+------------+--------+---------------+----------------+---------+
+|  1 | PRIMARY     | gt1        | index  | PRIMARY       | genreNameIndex | 77      |
+|  1 | PRIMARY     | <derived2> | ref    | <auto_key0>   | <auto_key0>    | 4       |
+|  1 | PRIMARY     | gt2        | eq_ref | PRIMARY       | PRIMARY        | 4       |
+|  2 | DERIVED     | pro        | index  | PRIMARY       | titleIndex     | 32      |
+|  2 | DERIVED     | g1         | ref    | PRIMARY       | PRIMARY        | 4       |
+|  2 | DERIVED     | g2         | ref    | PRIMARY       | PRIMARY        | 4       |
++----+-------------+------------+--------+---------------+----------------+---------+
+---------------+-------+----------------------------------------------+
+ ref           | rows  | Extra                                        |
+---------------+-------+----------------------------------------------+
+ NULL          |    28 | Using index; Using temporary; Using filesort |
+ itumdb.gt1.id |   596 | NULL                                         |
+ s1.g2Id       |     1 | Using where                                  |
+ NULL          | 59556 | Using index; Using temporary; Using filesort |
+ itumdb.pro.id |     1 | Using index                                  |
+ itumdb.pro.id |     1 | Using index                                  |
+---------------+-------+----------------------------------------------+
+\end{lstlisting}
+
 \subsubsection{Explanation}
+By joining a single production with two different genres the way it is done here, we can count every single 2-genre combination that exists in the database. The outer select is only there to take the Ids found in the inner select and translating them to genre names rather than only the Ids being displayed. In the end, we would like to ignore the cases of productions having only a single genre (for instance "drama"), thus only looking at pairs of genres for all productions in the database.
