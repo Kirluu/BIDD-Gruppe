@@ -40,12 +40,3 @@ WHERE EXISTS (
 INSERT Role (personId, productionId, roleName)
 SELECT personId, movieId, role
 FROM imdb.Involved;
-
-
-
-
-
-
-drop database itumdb;
-create database itumdb;
-use itumdb;

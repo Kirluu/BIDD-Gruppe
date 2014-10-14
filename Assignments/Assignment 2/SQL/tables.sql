@@ -12,8 +12,10 @@ CREATE TABLE IF NOT EXISTS Production (
 );
 
 CREATE TABLE IF NOT EXISTS Reference (
+	id INT AUTO_INCREMENT,
 	fromId INT,
 	toId INT,
+	PRIMARY KEY(id),
 	FOREIGN KEY(fromId) REFERENCES Production(id),
 	FOREIGN KEY(toId) REFERENCES Production(id)
 );

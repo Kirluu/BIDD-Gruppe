@@ -1,0 +1,20 @@
+\documentclass[12pt,table,xcdraw]{article}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{pdfpages}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\begin{document}
+	\input{Titlepage}
+	
+	\begin{figure}
+		\centering
+		\centerline{\includegraphics[scale=0.35]{figures/ERD.pdf}}
+		\caption{Entity-relationship model}
+	\end{figure}
+	
+	\include{SQLSchema}
+	\include{SQLTransfer}
+	\include{SQLQueries}
+\end{document}
