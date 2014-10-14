@@ -120,20 +120,15 @@ SELECT * FROM (
 WHERE s >= 10
 ORDER BY s DESC;
 
--- 16. (not done)
-SELECT * FROM (
-	SELECT r1.id id1, r1.fromId, r1.toId, COUNT(*) c FROM Reference r1
-	INNER JOIN (SELECT r2.id id2, r2.fromId, r2.toId FROM Reference r2) s1 ON r1.toId = s1.fromId
-	INNER JOIN (SELECT r3.id id3, r3.fromId, r3.toId FROM Reference r3) s2 ON s1.toId = s2.fromId
-	GROUP BY r1.id) s3
+-- 16.
+SELECT (SELECT title FROM Production WHERE id = fromId) title, c twoLinkCount FROM (
+	SELECT r1.fromId, COUNT(*) c FROM Reference r1
+	INNER JOIN (SELECT r2.id id2, r2.fromId fromId2, r2.toId toId2 FROM Reference r2) s1 ON r1.toId = s1.fromId2
+	INNER JOIN (SELECT r3.id id3, r3.fromId fromId3, r3.toId toId3 FROM Reference r3) s2 ON s1.toId2 = s2.fromId3
+	GROUP BY r1.id
+) sLast
 ORDER BY c DESC
-LIMIT 1
-
-SELECT r1.fromId FROM Reference r1
-INNER JOIN Reference r2 ON r1.toId = r2.fromId
-INNER JOIN Reference r3 ON r2.toId = r3.fromId;
-
---(SELECT title FROM Production WHERE id = id1) title, 
+LIMIT 1;
 
 -- 17. (not done)
 SELECT *
