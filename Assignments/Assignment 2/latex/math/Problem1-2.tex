@@ -1,12 +1,22 @@
 \subsection{$(\rho_{[cpr \mapsto id]}R_1) \times R_2 = (\rho_{[cpr \mapsto id]}R_1) \times (\rho_{[cpr \mapsto id]}R_2)$}
 
 \begin{table}[ht]
-	\begin{tabular}{ll}
-		$\bm{R_{LHS}}$ & $\bm{R_{RHS}}$  \\
-		$(\rho_{[cpr \mapsto id]}R_1) \times R_2$ & $(\rho_{[cpr \mapsto id]R_1}) \times (\rho_{[cpr \mapsto id]R_2})$  \\
-		$A(R_{LHS}) = (\rho_{[cpr\mapsto id]}(A(R_1)) \times A(R_2)$ & $A(R_{RHS}) = (\rho_{[cpr\mapsto id]}A(R_1)) \times (\rho_{[cpr \mapsto id]}A(R_2))$  \\
-		$A(R_{LHS}) = \{id, address\} \times \{cpr, name\}$ & $A(R_{RHS}) = \{id, address\} \times \{id, name\}$  \\
-		$A(R_{LHS}) = \{id, address, cpr, name\}$ & $A(R_{RHS}) = \{id, address, id, name\}(undefined)$
+	\begin{tabular}{l}
+		$\bm{R_{LHS}}$  \\
+		$(\rho_{[cpr \mapsto id]}R_1) \times R_2$  \\
+		$A(R_{LHS}) = (\rho_{[cpr\mapsto id]}(A(R_1)) \times A(R_2)$  \\
+		$A(R_{LHS}) = \{id, address\} \times \{cpr, name\}$  \\
+		$A(R_{LHS}) = \{id, address, cpr, name\}$
+	\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+	\begin{tabular}{l}
+		$\bm{R_{RHS}}$ \\
+	 	$(\rho_{[cpr \mapsto id]R_1}) \times (\rho_{[cpr \mapsto id]R_2})$ \\
+		$A(R_{RHS}) = (\rho_{[cpr\mapsto id]}A(R_1)) \times (\rho_{[cpr \mapsto id]}A(R_2))$ \\
+		$A(R_{RHS}) = \{id, address\} \times \{id, name\}$ \\
+		$A(R_{RHS}) = \{id, address, id, name\}(undefined)$ 
 	\end{tabular}
 \end{table}
 \FloatBarrier
