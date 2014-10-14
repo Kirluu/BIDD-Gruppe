@@ -1,0 +1,2 @@
+For this query to work we have to simulate a full outer join, or in terms of relational algebra the symmetric difference between two sets. We need to simulate this since MySQL doesn't have this function.
+To simulate this functionality we create the joined set of productions where either John Travolta or Uma Thurman have had a role in. Then we create the set of productions in which both have worked together and then we negate the two.
