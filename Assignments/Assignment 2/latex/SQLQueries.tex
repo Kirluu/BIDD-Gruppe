@@ -34,9 +34,8 @@ WHERE language='Danish';
 ------+---------+------+-------+-------------+
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 2}
 \begin{lstlisting}[language=sql]
 SELECT year, COUNT(*)
@@ -97,9 +96,8 @@ GROUP BY year;
 ------+-----------------------------------------------------------+
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 3}
 \begin{lstlisting}[language=sql]
 SELECT * FROM (
@@ -321,9 +319,8 @@ WHERE NOT EXISTS (
 
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 4}
 \begin{lstlisting}[language=sql]
 SELECT COUNT(*) FROM (
@@ -360,9 +357,8 @@ SELECT COUNT(*) FROM (
 -------------+--------+----------------------------------------------+
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 5}
 \begin{lstlisting}[language=sql]
 SELECT per.name, YEAR(per.birthdate)
@@ -449,6 +445,7 @@ ORDER BY per.birthdate ASC;
 This query selects the name and year of birth from the people who have a role in the production with the title "Pulp Fiction" and order the relation by ascending year of birth.
 
 
+\bigskip
 \subsection{Query 6}
 \begin{lstlisting}[language=sql]
 SELECT pro1.title, pro1.year
@@ -538,6 +535,7 @@ FROM(
 This query selects all the movies "John Travolta" has starred in and all the movies "Samadu Jackson" has starred in and lists the movies that have been made after 1980 (inclusive).
 
 
+\bigskip
 \subsection{Query 7}
 \begin{lstlisting}[language=sql]
 SELECT COUNT(*) FROM (
@@ -572,9 +570,8 @@ SELECT COUNT(*) FROM (
 --------+---------+------+------+-------------+
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 8}
 \begin{lstlisting}[language=sql]
 SELECT title, imdbRating
@@ -619,9 +616,8 @@ WHERE year < 2000 AND year >= 1990 ORDER BY imdbRating desc LIMIT 5;
 ------+---------+------+-------+-----------------------------+
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 9}
 \begin{lstlisting}[language=sql]
 SELECT AVG(rating) rating, (SELECT title FROM Production WHERE id = productionId) title, COUNT(*) amount
@@ -660,9 +656,8 @@ LIMIT 5;
 ---------+------+------+---------------------------------+
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 10}
 \begin{lstlisting}[language=sql]
 SELECT pro.language, AVG(pro.imdbRating) average
@@ -753,9 +748,8 @@ ORDER BY average DESC;
 -------+----------------------------------------------+
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 11}
 \begin{lstlisting}[language=sql]
 SELECT DISTINCT personId
@@ -853,6 +847,7 @@ Empty set (0.28 sec)
 This query selects all the ids of all the people starring in Pulp Fiction and not starring in a film which stars more than one Pulp Fiction actor. The latter relation is found by taking all the movies which have starred actors who have also starred in Pulp Fiction and keeping the movies which star more than one Pulp Fiction actor. Then all the roles in those movies are found and thereby also the ids of all actors who star in films which star in more than one Pulp Fiction actor.
 
 
+\bigskip
 \subsection{Query 12}
 \begin{lstlisting}[language=sql]
 SELECT pro.title proTitle, MAX(pro.imdbRating) rating
@@ -893,9 +888,8 @@ LIMIT 1;
 ---------+-----------------------+------+----------------------------------------------+
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 13}
 \begin{lstlisting}[language=sql]
 SELECT COUNT(*) FROM Person
@@ -933,9 +927,8 @@ WHERE gender = 'f' AND (
 -----------+---------+-------+--------+-------------+
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 14}
 \begin{lstlisting}[language=sql]
 SELECT gt.genreName, AVG(pro.imdbRating)
@@ -1000,9 +993,8 @@ GROUP BY gt.genreName;
 ---------+-----------------------+------+-------------+
 \end{lstlisting}
 
-\subsubsection{Explanation}
 
-
+\bigskip
 \subsection{Query 15}
 \begin{lstlisting}[language=sql]
 SELECT * FROM (
@@ -1079,6 +1071,7 @@ ORDER BY s DESC;
 By selecing the genre name of the genre type which fits to a certain production, and then taking the sum of the count from the inner select, and within that select counting the amount of ratings for that production from various users (we do not care which user rated what), we may reach the correct answer for this problem, as we are able to look at the number of ratings for each production, meanwhile inspecting what genre that production contains. In the end, we make sure we only look at genres with at least 10 total ratings to movies of that genre, by using the calculated sum of ratings.
 
 
+\bigskip
 \subsection{Query 16}
 \begin{lstlisting}[language=sql]
 SELECT (SELECT title FROM Production WHERE id = fromId) title, c twoLinkCount FROM (
@@ -1128,8 +1121,10 @@ LIMIT 1;
 \end{lstlisting}
 
 \subsubsection{Explanation}
+The outer select chooses a title of a production which has some id, which is then made sure to relate to the inner select, connecting it the the fromId of the first reference mentioned. Following this, joins are made to two extra references, simulating the 2-link reference from the production whose title is selected in the outer select statement. The references are connected to each other by pairing the toId of the initially selected production with the fromId of another reference, and then doing the same with this second reference and a third reference. Thus a reference essentially goes from the initially selected production to the third mentioned reference (through the second one). Finally, a grouping is performed based on the fromId of the first reference, and the counting is stored in a variable which can then be used to give a more meaningful name in the outer selection (which again also retrieves the name based on the found Id). Ordering and limiting is added to make the result fit the assignment's actual request.
 
 
+\bigskip
 \subsection{Query 17}
 \begin{lstlisting}[language=sql]
 SELECT COUNT(*)
@@ -1201,6 +1196,7 @@ WHERE actors.actorPerId IN (
 This may be somewhat self-explanatory, however perhaps not entirely. At first, a selection is made to retrieve the Ids of all persons who have any acting role in the database. Followingly a similar selection is made to instead retrieve the Ids of all persons who have any director role in the database. Once these two selections are up and running, it's easy enough to note that we can count the amount of acting persons whose Ids also appear in the selection of persons with directing roles. 
 
 
+\bigskip
 \subsection{Query 18}
 \begin{lstlisting}[language=sql]
 SELECT gt1.genreName, gt2.genreName, amount
