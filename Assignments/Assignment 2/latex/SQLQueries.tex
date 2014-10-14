@@ -1,23 +1,24 @@
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
 \definecolor{mymauve}{rgb}{0.58,0,0.82}
-% \lstset{
-% 	backgroundcolor=\color{white},   
-% 	basicstyle=\footnotesize,        
-% 	breaklines=true,                 
-% 	captionpos=b,                    
-% 	commentstyle=\color{mygreen},    
-% 	escapeinside={\%*}{*)},          
-% 	keywordstyle=\color{blue},       
-% 	stringstyle=\color{mymauve},     
-% }
+\lstset{
+	backgroundcolor=\color{white},   
+	basicstyle=\footnotesize,        
+	breaklines=true,                 
+	captionpos=b,                    
+	commentstyle=\color{mygreen},    
+	escapeinside={\%*}{*)},          
+	keywordstyle=\color{blue},       
+	stringstyle=\color{mymauve},     
+}
 
 \section{SQL Queries}
 \lstinputlisting[language=SQL]{../SQL/queries.sql}
 
 \lstdefinestyle{BashStyle}{
   keywordstyle=\color{black},
-  basicstyle=\color{black}
+  basicstyle=\color{black},
+  extendedchars=true
 }
 \subsection{Transcript}
 \lstinputlisting[language=bash, style=BashStyle]{../SQL/queriesresult.txt}

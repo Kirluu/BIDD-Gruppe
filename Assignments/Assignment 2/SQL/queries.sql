@@ -130,7 +130,7 @@ SELECT (SELECT title FROM Production WHERE id = fromId) title, c twoLinkCount FR
 ORDER BY c DESC
 LIMIT 1;
 
--- 17. (not done)
+-- 17.
 SELECT COUNT(*)
 FROM (
 	SELECT per.id actorPerId
