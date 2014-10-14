@@ -115,11 +115,14 @@ WHERE per1.id NOT IN
 );
 
 -- 12.
-SELECT pro.title, MAX(pro.imdbRating) AS rating
+SELECT pro.title proTitle, MAX(pro.imdbRating) rating
 FROM Production pro
 INNER JOIN Role r ON pro.id = r.productionId
 INNER JOIN Person per ON r.personId = per.id
-WHERE per.name = 'John Travolta';
+WHERE per.name = 'John Travolta'
+GROUP BY proTitle
+ORDER BY rating DESC
+LIMIT 1;
 
 -- 13.
 SELECT COUNT(*) FROM Person
