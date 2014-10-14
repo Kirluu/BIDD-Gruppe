@@ -84,7 +84,35 @@ WHERE pro.year = 1994
 GROUP BY pro.language
 ORDER BY average DESC;
 
--- 11. (not done)
+-- 11.
+SELECT DISTINCT personId
+FROM Person per1 
+INNER JOIN Role r1 ON r1.personId = per1.id
+INNER JOIN Production pro1 ON pro1.id = r1.productionId AND pro1.title='Pulp Fiction' AND r1.roleName='actor'
+WHERE per1.id NOT IN 
+( 
+    SELECT DISTINCT personId
+    FROM 
+    (
+        SELECT productionId, COUNT(*) c
+        FROM
+        (
+            SELECT r2.productionId 
+            FROM
+            (
+                SELECT per1.id IdOfActorsInPulpFiction
+                FROM Person per1
+                INNER JOIN Role r1 ON r1.personId = per1.id
+                INNER JOIN Production pro1 ON pro1.id = r1.productionId AND pro1.title='Pulp Fiction' AND r1.roleName='actor'         
+            ) ActorsInPulpFiction
+            INNER JOIN Role r2 ON IdOfActorsInPulpFiction = r2.personId
+            AND r2.roleName='actor' AND r2.productionId != (SELECT id FROM production WHERE title ='Pulp Fiction')
+        ) MoviesOfPulpFictionCastMinusPulpFiction
+        GROUP BY productionId HAVING c > 1
+    ) MoviesWithMoreThanOnePulpFictionActor 
+    INNER JOIN role r3 ON r3.productionId = MoviesWithMoreThanOnePulpFictionActor.productionId
+    AND r3.productionId != (SELECT id FROM production WHERE title ='Pulp Fiction')
+);
 
 -- 12.
 SELECT pro.title, MAX(pro.imdbRating) AS rating
@@ -101,11 +129,11 @@ WHERE gender = 'f' AND (
 );
 
 -- 14.
-SELECT gt.name, AVG(pro.imdbRating)
+SELECT gt.genreName, AVG(pro.imdbRating)
 FROM Production pro
 INNER JOIN Genre g ON pro.id = g.productionId
 INNER JOIN GenreType gt ON g.genreTypeId = gt.id
-GROUP BY gt.name;
+GROUP BY gt.genreName;
 
 -- 15.
 SELECT * FROM (
@@ -125,7 +153,7 @@ SELECT (SELECT title FROM Production WHERE id = fromId) title, c twoLinkCount FR
 	SELECT r1.fromId, COUNT(*) c FROM Reference r1
 	INNER JOIN (SELECT r2.id id2, r2.fromId fromId2, r2.toId toId2 FROM Reference r2) s1 ON r1.toId = s1.fromId2
 	INNER JOIN (SELECT r3.id id3, r3.fromId fromId3, r3.toId toId3 FROM Reference r3) s2 ON s1.toId2 = s2.fromId3
-	GROUP BY r1.id
+	GROUP BY r1.fromId
 ) sLast
 ORDER BY c DESC
 LIMIT 1;

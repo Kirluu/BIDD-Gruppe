@@ -7,20 +7,18 @@
 \usepackage{mathtools}
 \usepackage{bm}
 \usepackage{placeins}
+\usepackage{latexsym}
 
 \begin{document}
 	\input{Titlepage}
 	
-	\begin{figure}
-		\centering
-		\centerline{\includegraphics[scale=0.35]{figures/ERD.pdf}}
-		\caption{Entity-relationship model}
-	\end{figure}
+	\input{datamodel}
 
-	% \input{math/problem1-1}
+	\include{SQLSchema}
+
+	\input{math/problem1-1}
 	\input{math/problem1-2}
 	
-	\include{SQLSchema}
 	\include{SQLTransfer}
 	\include{SQLQueries}
 \end{document}
