@@ -1,17 +1,17 @@
-$\rho_{[cpr\mapsto id]}(R_1 \Join R_2) = (\rho_{[cpr\mapsto id]} R_1) \Join R_2\\$
+\subsection{$\rho_{[cpr\mapsto id]}(R_1 \Join R_2) = (\rho_{[cpr\mapsto id]} R_1) \Join R_2$}
 
 \begin{table}[ht]
-\begin{tabular}{ll}
- $\bm{R_{LHS}}$ & $\bm{R_{RHS}}$  \\
- $\rho_{[cpr\mapsto id]}(R_1 \Join R_2)$ & $(\rho_{[cpr\mapsto id]} R_1) \Join R_2$  \\
- $A(R_{LHS}) = \rho_{[cpr\mapsto id]}(A(R_1) \Join A(R_2))$ & $A(R_{RHS}) = (\rho_{[cpr\mapsto id]}A(R_1)) \Join A(R_2)$  \\
- $A(R_{LHS}) = \{id, address\} \Join \{id, name\}$ & $A(R_{RHS}) = \{id, address\} \Join \{cpr, name\}$  \\
- $A(R_{LHS}) = \{id, address, name\}$ & $A(R_{RHS}) = \{id, address, cpr, name\}$
-\end{tabular}
+	\begin{tabular}{ll}
+		$\bm{R_{LHS}}$ & $\bm{R_{RHS}}$  \\
+		$\rho_{[cpr\mapsto id]}(R_1 \Join R_2)$ & $(\rho_{[cpr\mapsto id]} R_1) \Join R_2$  \\
+		$A(R_{LHS}) = \rho_{[cpr\mapsto id]}(A(R_1) \Join A(R_2))$ & $A(R_{RHS}) = (\rho_{[cpr\mapsto id]}A(R_1)) \Join A(R_2)$  \\
+		$A(R_{LHS}) = \{id, address\} \Join \{id, name\}$ & $A(R_{RHS}) = \{id, address\} \Join \{cpr, name\}$  \\
+		$A(R_{LHS}) = \{id, address, name\}$ & $A(R_{RHS}) = \{id, address, cpr, name\}$
+	\end{tabular}
 \end{table}
 \FloatBarrier
 
-This equality is not true as the righthand side relation $(R_{RHS})$ results to the cartesian product of $R_1$ and $R_2$, as there aren't any common attributes, due to the renaming of cpr to id in $R_1$.
+This equality is not true as the right-hand side relation $(R_{RHS})$ results to the cartesian product of $R_1$ and $R_2$, as there aren't any common attributes, due to the renaming of cpr to id in $R_1$.
 For this equality to be true the $R_{RHS}$ should also have renamed the $R_2$ relations cpr to id,\\
 $R_{RHS} = (\rho_{[cpr\mapsto id]} R_1) \Join (\rho_{[cpr\mapsto id]} R_2)$\\
-as this isn't the case the equality is false.
+as this isn't the case the equality is false.\\\\

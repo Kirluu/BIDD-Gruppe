@@ -1,0 +1,17 @@
+\subsection{$\sigma_{cpr=id}(\rho_{[cpr \mapsto id]}R_1 \times R_2) = (\rho_{[cpr \mapsto id]}R_1) \Join (\rho_{[cpr \mapsto id]}R_2)$}
+
+\begin{table}[h]
+	\begin{tabular}{ll}
+		 $\bm{R_{LHS}}$ & $\bm{R_{RHS}}$  \\
+		 $\sigma_{cpr=id}(\rho_{[cpr \mapsto id]}R_1 \times R_2)$ & $(\rho_{[cpr \mapsto id]}R_1) \Join (\rho_{[cpr \mapsto id]}R_2)$  \\
+		 $A(R_{LHS}) = \sigma_{cpr=id}(\rho_{[cpr \mapsto id]}A(R_1) \times A(R_2))$ & $A(R_{RHS}) = (\rho_{[cpr \mapsto id]}A(R_1) \Join (\rho_{[cpr \mapsto id]}A(R_2))$  \\
+		 $A(R_{LHS}) = \sigma_{cpr=id}(\{id, address, cpr, name\} \times \{id, name\})$ & $A(R_{RHS}) = \{id, address\} \Join \{id, name\}$  \\
+		 $A(R_{LHS}) = \{id, address, cpr, name\}$ & $A(R_{RHS}) = \{id, address, name\}$
+	\end{tabular}
+\end{table}
+\FloatBarrier
+
+The left-hand side relation $R_{LHS}$ is a cartesian product of $R_1$ and $R_2$ where $cpr$ in $R_1$ has been renamed to $id$.
+The cartesian product is therefore well-defined since there aren't any common attributes, but this also results in the LHS having four attributes, whereas the RHS has three attributes since it's a join on $R_1$ and $R_2$ where $cpr$ in both relations has been renamed to $id$. Even though the tuples from the LHS relation will be the ones where $cpr$ is equal to $id$ there will be another attribute in its tuples, meaning this equality is false.
+If however there was a projection for $id, name, address$ with the same selection this equaity would be true.\\\\
+
