@@ -56,6 +56,11 @@ ALTER TABLE user
 ADD FOREIGN KEY (zip)
 REFERENCES zipcode(zip);
 
+-- zipcodedata
+ALTER TABLE zipcodedata
+ADD FOREIGN KEY (zip)
+REFERENCES zipcode(zip);
+
 
 -- NOT NULL
 -- genre
