@@ -33,6 +33,36 @@ ALTER TABLE zipcode
 ADD PRIMARY KEY (zip);
 
 
+-- NOT NULL
+-- genre
+DELETE FROM genre
+WHERE name IS NULL;
+
+ALTER TABLE genre
+MODIFY name VARCHAR(20) NOT NULL;
+
+-- movie
+DELETE FROM movie
+WHERE title IS NULL;
+
+ALTER TABLE movie
+MODIFY title VARCHAR(127) NOT NULL;
+
+-- occupation
+DELETE FROM occupation
+WHERE description IS NULL;
+
+ALTER TABLE occupation
+MODIFY description VARCHAR(20) NOT NULL;
+
+-- rating
+DELETE FROM rating
+WHERE rating IS NULL;
+
+ALTER TABLE rating
+MODIFY rating INT(11) NOT NULL;
+
+
 -- CLEANING
 -- user
 DELETE FROM user
@@ -101,33 +131,3 @@ REFERENCES occupation(id);
 ALTER TABLE user
 ADD FOREIGN KEY (zip)
 REFERENCES zipcode(zip);
-
-
--- NOT NULL
--- genre
-DELETE FROM genre
-WHERE name IS NULL;
-
-ALTER TABLE genre
-MODIFY name VARCHAR(20) NOT NULL;
-
--- movie
-DELETE FROM movie
-WHERE title IS NULL;
-
-ALTER TABLE movie
-MODIFY title VARCHAR(127) NOT NULL;
-
--- occupation
-DELETE FROM occupation
-WHERE description IS NULL;
-
-ALTER TABLE occupation
-MODIFY description VARCHAR(20) NOT NULL;
-
--- rating
-DELETE FROM rating
-WHERE rating IS NULL;
-
-ALTER TABLE rating
-MODIFY rating INT(11) NOT NULL;
