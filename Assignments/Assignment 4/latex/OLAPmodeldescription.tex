@@ -1,0 +1,37 @@
+\textbf{Description:} \\
+\begin{tabular}{ c | c | c | c | c | c }
+  movieId & genreId & userId & occupationId & zip \\
+  \hline
+  1 & 42 & 3 & 2 & 06950 & 6 \\
+  1 & 42 & 4 & 2 & 06950 & 6 \\
+  1 & 42 & 1 & 2 & 06950 & 6 \\
+  \hline  
+\end{tabular} \\
+\noindent One fact in this fact table represents (possibly only a part of) a single rating. Thus by using this fact table, we can say something about ratings on various movies which have different genres, as well as saying something about the users that made these ratings, specifically regarding age of user, demography and the associated income. \\
+One fact in the fact table represents a single rating because one fact contains both a movieId and a userId, whereas these two combined grant access to rating data, since they form the primary key of the 'rating' table. \\
+As it can be seen in the sample data above, one rating may occur several times. This is because one fact links to a single genreId, which means, in the case that a movie should have more than a single genre connected to it, it will occur several times as several facts - all these facts describe the same rating of the same movie concerning the same user. \\
+The 'zip' value in the fact table links to two different tables; 'zipcode' and 'zipcodedata'. This is a case of vertical partitioning, as we let the zip value refer to two different data sources, all related to our user. \\
+
+\noindent We have the following dimensions and possible measures by using this fact table: \\
+Dimensions:
+\begin{itemize}
+  \item modelId
+  \item userId
+  \item genreId
+  \item occupationId
+  \item zip
+\end{itemize} \\
+Measures, deriviated from our dimensions:
+\begin{itemize}
+  \item rating (retrievable from movieId, userId (stored in rating table))
+  \item time (date retrievable from movieId, userId (stored in rating table))
+  \item lattitude (retrievable from zip)
+  \item longitude (retrievable from zip)
+  \item salary (retrievable from zip)
+  \item population (retrieve from zip)
+  \item age (retrievable from userId)
+\end{itemize} \\
+
+\textbf{Transcript:} \\
+I like terrains.
+Muddy terrains, grassy terrains, watery terrains, dirty terrains, clean terrains, baby terrains, ...
