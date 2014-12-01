@@ -1,12 +1,13 @@
-\section*{Description}
-Below is the fact table that we have come up with. See below for the full explanation of its contents.
+\section*{OLAP model description}
 
-\begin{tabular}{ c | c | c | c | c | c }
+\noindent Below is the fact table that we have come up with. See below for the full explanation of its contents.
+
+\begin{tabular}{c | c | c | c | c}
   movieId & genreId & userId & occupationId & zip \\
   \hline
-  1 & 42 & 3 & 2 & 06950 \\
-  1 & 42 & 4 & 2 & 06950 \\
-  1 & 42 & 1 & 2 & 06950 \\
+  1 & 3 & 42 & 2 & 06950 \\
+  1 & 4 & 42 & 2 & 06950 \\
+  1 & 1 & 42 & 2 & 06950 \\
   \hline  
 \end{tabular} \\
 
@@ -38,7 +39,7 @@ Dimensions:
   \item age (retrievable from userId)
 \end{itemize}
 
-Found below are the transcripts for the fact table and the pre-aggregation tables along with the created indices. \\
+\noindent Found below are the transcripts for the fact table and the pre-aggregation tables along with the created indices. \\
 
 \noindent\textbf{Fact table} \\
 \begin{lstlisting}

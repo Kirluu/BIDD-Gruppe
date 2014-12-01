@@ -1,12 +1,45 @@
 \section*{Data cleaning}
 
-During data cleaning, we found that there was indeed references pointing from the user table toward zipcode tuples that did not exist. We thus deleted these users, to avoid any errors that may occur in the future. \\
+\noindent During data cleaning, we found that there was indeed references pointing from the user table toward zipcode tuples that did not exist. We thus deleted these users, to avoid any errors that may occur in the future. \\
 After this, we moved on to look at the rating table, making sure that the ratings of the users we just deleted were also cleaned. Finally, we went ahead and checked the moviegenre table for invalid references, however there appeared to be none. \\
-Following this, we went ahead and applied proper structure to the database, by adding constraints that were otherwise not present - this was not mentioned in the assignment, but made our work a tad easier when executing various queries. \\
+\indent Following this, we went ahead and applied proper structure to the database, by adding constraints that were otherwise not present - this was not mentioned in the assignment, but made our work a tad easier when executing various queries. \\
 On the subject of the age data, we initially took the minimum age, and added it to a random value which was multiplied with the interval's length, to give some value in between. It appeared, however, that we had very few cases of the minimum age within each age group when we computed these ages. This was a problem, so we altered our update queries to 'FLOOR' the result, so that a RAND() computed value of 0.999, multiplied by 10, would, instead of becoming 10, become 9. This also meant that we could write the age intervals as their minimum up to their maximum allowed value minus one, since we can count on the flooring functionality to give us the results we want, as long as we define our numbers correctly. \\
-On a side-note, we decided to make the first (youngest users) interval go from the age of 10 to 18, instead of 0-18, to make our estimates of age more realistic. \\
-\\
+\indent On a side-note, we decided to make the first (youngest users) interval go from the age of 10 to 18, instead of 0-18, to make our estimates of age more realistic. \\
+
 See the relevant SQL queries for data cleaning below: \\
+
+\noindent\textbf{Primary keys} \\
+
+\begin{lstlisting}
+-- genre
+ALTER TABLE genre
+ADD PRIMARY KEY (id);
+
+-- movie
+ALTER TABLE movie
+ADD PRIMARY KEY (id);
+
+-- moviegenre
+ALTER TABLE moviegenre
+ADD PRIMARY KEY (genreId, movieId);
+
+-- occupation
+ALTER TABLE occupation
+ADD PRIMARY KEY (id);
+
+-- rating
+ALTER TABLE rating
+ADD PRIMARY KEY (userId, movieId);
+
+-- user
+ALTER TABLE user
+ADD PRIMARY KEY (id);
+
+-- zipcode
+ALTER TABLE zipcode
+ADD PRIMARY KEY (zip);
+\end{lstlisting}
+\bigskip
 
 \noindent\textbf{Deletion-cleaning} \\
 
@@ -58,6 +91,69 @@ WHERE NOT EXISTS (
 );
 \end{lstlisting}
 \bigskip
+
+\noindent\textbf{Foreign keys} \\
+
+\begin{lstlisting}
+-- moviegenre
+ALTER TABLE moviegenre
+ADD FOREIGN KEY (genreId)
+REFERENCES genre(id);
+
+ALTER TABLE moviegenre
+ADD FOREIGN KEY (movieId)
+REFERENCES movie(id);
+
+-- rating
+ALTER TABLE rating
+ADD FOREIGN KEY (userId)
+REFERENCES user(id);
+
+ALTER TABLE rating
+ADD FOREIGN KEY (movieId)
+REFERENCES movie(id);
+
+-- user
+ALTER TABLE user
+ADD FOREIGN KEY (occupation)
+REFERENCES occupation(id);
+
+ALTER TABLE user
+ADD FOREIGN KEY (zip)
+REFERENCES zipcode(zip);
+\end{lstlisting}
+
+\noindent\textbf{Additional constraints} \\
+
+\begin{lstlisting}
+-- genre
+DELETE FROM genre
+WHERE name IS NULL;
+
+ALTER TABLE genre
+MODIFY name VARCHAR(20) NOT NULL;
+
+-- movie
+DELETE FROM movie
+WHERE title IS NULL;
+
+ALTER TABLE movie
+MODIFY title VARCHAR(127) NOT NULL;
+
+-- occupation
+DELETE FROM occupation
+WHERE description IS NULL;
+
+ALTER TABLE occupation
+MODIFY description VARCHAR(20) NOT NULL;
+
+-- rating
+DELETE FROM rating
+WHERE rating IS NULL;
+
+ALTER TABLE rating
+MODIFY rating INT(11) NOT NULL;
+\end{lstlisting}
 
 \noindent\textbf{Age-value improvements} \\
 
