@@ -1,4 +1,5 @@
-\textbf{Data cleaning:} \\
+\section*{Data cleaning}
+
 During data cleaning, we found that there was indeed references pointing from the user table toward zipcode tuples that did not exist. We thus deleted these users, to avoid any errors that may occur in the future. \\
 After this, we moved on to look at the rating table, making sure that the ratings of the users we just deleted were also cleaned. Finally, we went ahead and checked the moviegenre table for invalid references, however there appeared to be none. \\
 Following this, we went ahead and applied proper structure to the database, by adding constraints that were otherwise not present - this was not mentioned in the assignment, but made our work a tad easier when executing various queries. \\
@@ -6,8 +7,9 @@ On the subject of the age data, we initially took the minimum age, and added it 
 On a side-note, we decided to make the first (youngest users) interval go from the age of 10 to 18, instead of 0-18, to make our estimates of age more realistic. \\
 See the relevant SQL queries for data cleaning below: \\
 
-%Should be SQL listing here:
-Deletion-cleaning:\\
+
+\textbf{Deletion-cleaning}
+\begin{lstlisting}
 -- user
 DELETE FROM user
 WHERE NOT EXISTS (
@@ -53,10 +55,10 @@ WHERE NOT EXISTS (
 	SELECT zip FROM zipcode
 	WHERE zip = zipcodedata.zip
 );
-%End SQL listing
-\\
-Age-value improvements: \\
-%Begin SQL listing
+\end{lstlisting}
+
+\textbf{Age-value improvements}
+\begin{lstlisting}
 -- age group (10-17)
 UPDATE user
 SET age=10+FLOOR(RAND()*8)
@@ -91,4 +93,4 @@ WHERE age=50;
 UPDATE user
 SET age=56+FLOOR(RAND()*30)
 WHERE age=56;
-%End SQL listing
+\end{lstlisting}
