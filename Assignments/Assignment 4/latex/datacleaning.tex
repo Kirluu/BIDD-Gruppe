@@ -8,10 +8,9 @@ On a side-note, we decided to make the first (youngest users) interval go from t
 \\
 See the relevant SQL queries for data cleaning below: \\
 
-
 \noindent\textbf{Deletion-cleaning} \\
 
-\begin{lstlisting}
+\begin{lstlisting}[language=sql]
 -- user
 DELETE FROM user
 WHERE NOT EXISTS (
@@ -62,7 +61,7 @@ WHERE NOT EXISTS (
 
 \noindent\textbf{Age-value improvements} \\
 
-\begin{lstlisting}
+\begin{lstlisting}[language=sql]
 -- age group (10-17)
 UPDATE user
 SET age=10+FLOOR(RAND()*8)
@@ -71,7 +70,7 @@ WHERE age=1;
 -- age group (18-24)
 UPDATE user
 SET age=18+FLOOR(RAND()*7)
-WHERE age=18;
+,WHERE age=18;
 
 -- age group (25-34)
 UPDATE user
