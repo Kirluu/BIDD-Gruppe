@@ -1,3 +1,4 @@
+-- Facts table
 CREATE TABLE ratingfacts (
 	movieId INT(11),
 	userId INT(11),
@@ -19,21 +20,8 @@ JOIN moviegenre ON moviegenre.movieId = rating.movieId
 JOIN occupation ON occupation.id = user.occupation
 JOIN zipcode ON zipcode.zip = user.zip;
 
-
-SELECT 1000/pop * COUNT(*) ratingsPerThousandPerson, ratingfacts.zip, COUNT(*) ratings, pop population
-FROM ratingfacts
-JOIN zipcodedata ON zipcodedata.zip = ratingfacts.zip
-GROUP BY zipcodedata.zip
-ORDER BY ratingsPerThousandPerson DESC;
-
-SELECT 1000/mean * COUNT(*) ratingsPerThousandDollars, ratingfacts.zip, mean meanIncome, COUNT(*) ratings FROM ratingfacts
-JOIN zipcodedata ON zipcodedata.zip = ratingfacts.zip
-GROUP BY ratingfacts.zip
-ORDER BY ratingsPerThousandDollars DESC;
-
-
 -- Aggregate
--- genre
+-- genre view
 CREATE TABLE genreview (
 	genreName VARCHAR(20),
 	movieCount INT(11),
@@ -66,17 +54,27 @@ INSERT INTO genreview (
 	GROUP BY genreId
 );
 
--- zip
+CREATE INDEX genreNameIndex ON genreview (genreName);
+CREATE INDEX movieCountIndex ON genreview (movieCount);
+CREATE INDEX ratingCountIndex ON genreview (ratingCount);
+CREATE INDEX ratingMeanIndex ON genreview (ratingMean);
+CREATE INDEX userSalaryMeanIndex ON genreview (userSalaryMean);
+CREATE INDEX userAgeMeanIndex ON genreview (userAgeMean);
+CREATE INDEX userLattitudeMeanIndex ON genreview (userLattitudeMean);
+CREATE INDEX userLongitudeMeanIndex ON genreview (userLongitudeMean);
+CREATE INDEX zipPopMeanIndex ON genreview (zipPopMean);
+
+-- zip view
 CREATE TABLE zipcodeview (
 	zip INT(11),
 	city VARCHAR(64),
 	state CHAR(2),
 	population INT(11),
-	mostFavouredGenre VARCHAR(20),
-	leastFavouredGenre VARCHAR(20),
+	totalUsers INT(11),
 	userAgeMean FLOAT,
 	userLattitudeMean FLOAT,
 	userLongitudeMean FLOAT,
+	totalRatings INT(11),
 	ratingMean FLOAT
 );
 
@@ -86,43 +84,77 @@ INSERT INTO zipcodeview (
 		zipcode.city,
 		zipcode.state,
 		zipcodedata.pop,
-		mostFavId,
-		leastFavId,
+		COUNT(DISTINCT user.id),
 		AVG(user.age),
 		AVG(zipcode.lattitude),
 		AVG(zipcode.longitude),
+		COUNT(DISTINCT rating.userId, rating.movieId),
 		AVG(rating.rating)
 	FROM ratingfacts AS facts
 	JOIN zipcode ON zipcode.zip = facts.zip
 	JOIN zipcodedata ON zipcodedata.zip = facts.zip
 	JOIN user ON user.id = facts.userId
 	JOIN rating ON rating.userId = facts.userId AND rating.movieId = facts.movieId
-	JOIN (
-		SELECT user.zip, ratingfacts.genreId mostFavId, MAX(average) mostFavRating
-		FROM ratingfacts
-		JOIN user ON ratingfacts.userId = user.id
-		JOIN (
-			SELECT user.zip AS userZip, ratingfacts.genreId AS theGenreId, AVG(rating.rating) AS average
-			FROM ratingfacts
-		    JOIN rating ON rating.userId = ratingfacts.userId AND rating.movieId = ratingfacts.movieId
-			JOIN user ON rating.userId = user.id
-			GROUP BY user.zip, ratingfacts.genreId
-			) AS s1_1 ON s1_1.theGenreId = ratingfacts.genreId AND s1_1.userZip = user.zip
-		GROUP BY user.zip, s1_1.theGenreId
-        ORDER BY mostFavRating DESC
-	) AS s1_2 ON facts.zip = s1_2.zip
-	JOIN (
-		SELECT user.zip, ratingfacts.genreId leastFavId, MIN(average) leastFavRating
-		FROM ratingfacts
-		JOIN user ON ratingfacts.userId = user.id
-		JOIN (
-			SELECT user.zip AS userZip, ratingfacts.genreId AS theGenreId, AVG(rating.rating) AS average
-			FROM ratingfacts
-		    JOIN rating ON rating.userId = ratingfacts.userId AND rating.movieId = ratingfacts.movieId
-			JOIN user ON rating.userId = user.id
-			GROUP BY user.zip, ratingfacts.genreId
-			) AS s2_1 ON s2_1.theGenreId = ratingfacts.genreId AND s2_1.userZip = user.zip
-		GROUP BY user.zip
-	) AS s2_2 ON facts.zip = s2_2.zip
 	GROUP BY zipcode.zip
 );
+
+CREATE INDEX zipIndex ON zipcodeview (zip);
+CREATE INDEX cityIndex ON zipcodeview (city);
+CREATE INDEX stateIndex ON zipcodeview (state);
+CREATE INDEX populationIndex ON zipcodeview (population);
+CREATE INDEX totalUsersIndex ON zipcodeview (totalUsers);
+CREATE INDEX userAgeMeanIndex ON zipcodeview (userAgeMean);
+CREATE INDEX userLattitudeMeanIndex ON zipcodeview (userLattitudeMean);
+CREATE INDEX userLongitudeMeanIndex ON zipcodeview (userLongitudeMean);
+CREATE INDEX totalRatingsIndex ON zipcodeview (totalRatings);
+CREATE INDEX ratingMeanIndex ON zipcodeview (ratingMean);
+
+-- user view
+CREATE TABLE userview (
+	id INT(11),
+	age FLOAT,
+	occupation VARCHAR(20),
+	lattitudeMean FLOAT,
+	longitudeMean FLOAT,
+	zip INT(11),
+	city VARCHAR(64),
+	state CHAR(2),
+	population INT(11),
+	totalRatings INT(11),
+	ratingMean FLOAT
+);
+
+INSERT INTO userview (
+	SELECT
+		user.id,
+		user.age,
+		occupation.description,
+		zipcode.lattitude,
+		zipcode.longitude,
+		zipcode.zip,
+		zipcode.city,
+		zipcode.state,
+		zipcodedata.pop,
+		COUNT(DISTINCT rating.userId, rating.movieId),
+		AVG(rating.rating)
+	FROM ratingfacts AS facts
+	JOIN user ON user.id = facts.userId
+	JOIN occupation ON occupation.id = user.occupation
+	JOIN zipcode ON zipcode.zip = user.zip
+	JOIN zipcodedata ON zipcodedata.zip = user.zip
+	JOIN rating ON rating.userId = facts.userId AND rating.movieId = facts.movieId
+	JOIN moviegenre ON moviegenre.movieId = rating.movieId
+	GROUP BY facts.userId
+);
+
+CREATE INDEX idIndex ON userview (id);
+CREATE INDEX ageIndex ON userview (age);
+CREATE INDEX occupationIndex ON userview (occupation);
+CREATE INDEX lattitudeMeanIndex ON userview (lattitudeMean);
+CREATE INDEX longitudeMeanIndex ON userview (longitudeMean);
+CREATE INDEX zipIndex ON userview (zip);
+CREATE INDEX cityIndex ON userview (city);
+CREATE INDEX stateIndex ON userview (state);
+CREATE INDEX populationIndex ON userview (population);
+CREATE INDEX totalRatingsIndex ON userview (totalRatings);
+CREATE INDEX ratingMeanIndex ON userview (ratingMean);
