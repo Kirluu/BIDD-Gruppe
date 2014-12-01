@@ -6,6 +6,18 @@ CREATE TABLE zipcodedata (
 	PRIMARY KEY(zip)
 );
 
-LOAD DATA LOCAL INFILE 'C:/Users/malthe/Documents/GitHub/BIDD-Gruppe/Assignments/Assignment 4/MeanZIP-3.csv'
+LOAD DATA LOCAL INFILE '<FILE LOCATION>'
 INTO TABLE zipcodedata
 FIELDS TERMINATED BY ';';
+
+-- Clean
+DELETE FROM zipcodedata
+WHERE NOT EXISTS (
+	SELECT zip FROM zipcode
+	WHERE zip = zipcodedata.zip
+);
+
+-- Foreign key
+ALTER TABLE zipcodedata
+ADD FOREIGN KEY (zip)
+REFERENCES zipcode(zip);

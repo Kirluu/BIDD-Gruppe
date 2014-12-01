@@ -37,13 +37,6 @@ WHERE NOT EXISTS (
 	WHERE id = moviegenre.movieId
 );
 
--- zipcodedata
-DELETE FROM zipcodedata
-WHERE NOT EXISTS (
-	SELECT zip FROM zipcode
-	WHERE zip = zipcodedata.zip
-);
-
 
 -- USER AGE
 -- age group (10-17)
