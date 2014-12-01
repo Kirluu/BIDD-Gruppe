@@ -13,8 +13,7 @@ CREATE TABLE zipcodedata (
 	PRIMARY KEY(zip)
 );
 
-LOAD DATA LOCAL INFILE 'C:/Users/USER/Documents/
-	GitHub/BIDD-Gruppe/Assignments/Assignment 4/MeanZIP-3.csv'
+LOAD DATA LOCAL INFILE --filepath for .csv file.
 INTO TABLE zipcodedata
 FIELDS TERMINATED BY ';';
 \end{lstlisting}
