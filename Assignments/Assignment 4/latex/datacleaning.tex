@@ -5,10 +5,12 @@ After this, we moved on to look at the rating table, making sure that the rating
 Following this, we went ahead and applied proper structure to the database, by adding constraints that were otherwise not present - this was not mentioned in the assignment, but made our work a tad easier when executing various queries. \\
 On the subject of the age data, we initially took the minimum age, and added it to a random value which was multiplied with the interval's length, to give some value in between. It appeared, however, that we had very few cases of the minimum age within each age group when we computed these ages. This was a problem, so we altered our update queries to 'FLOOR' the result, so that a RAND() computed value of 0.999, multiplied by 10, would, instead of becoming 10, become 9. This also meant that we could write the age intervals as their minimum up to their maximum allowed value minus one, since we can count on the flooring functionality to give us the results we want, as long as we define our numbers correctly. \\
 On a side-note, we decided to make the first (youngest users) interval go from the age of 10 to 18, instead of 0-18, to make our estimates of age more realistic. \\
+\\
 See the relevant SQL queries for data cleaning below: \\
 
 
-\textbf{Deletion-cleaning}
+\noindent\textbf{Deletion-cleaning} \\
+
 \begin{lstlisting}
 -- user
 DELETE FROM user
@@ -56,8 +58,10 @@ WHERE NOT EXISTS (
 	WHERE zip = zipcodedata.zip
 );
 \end{lstlisting}
+\bigskip
 
-\textbf{Age-value improvements}
+\noindent\textbf{Age-value improvements} \\
+
 \begin{lstlisting}
 -- age group (10-17)
 UPDATE user

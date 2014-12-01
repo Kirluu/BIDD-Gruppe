@@ -2,6 +2,7 @@
 For enriching, we had to first alter the .csv file in a way that we could read it properly. This involved removing the header at first, as we preferred making our own table befitting the data, and then loading the data into this table of the database, meaning the header data was irrelevant. The provided database used CHAR for its zip-values (so that a zip is allowed to start with 0) ahead of our enrichment, and because our .csv file contained zip codes of length 3 and 4, we had a choice to make; either alter the provided database or alter the data. We chose the latter. We thus went ahead and cycled through all 'zip' values in the dataset, adding 0s in front of all zip code entries with a length below 5, so that all values would have a length of 5, thus compatible with the provided database. The alternative would have been to alter the table in the provided database to hold a VARCHAR reference instead of a CHAR one. \\
 Once the .csv file was edited, we had the task of creating a table to contain the data. We encountered the fact that for the exisiting table to be able to reference our new zipcodedata table, the two values (its foreign key column and zipcodedata's primary key column) had to have the exact same typing, including their character set definition. We found the correct character set and defined our new table to follow the norm of the rest of the database. \\
 In the end, all there was left to do, was to load the file into our newly created table, lines separated by semi-colons. \\
+\\
 See the relevant SQL queries for the enrichment below: \\
 
 \begin{lstlisting}
@@ -12,7 +13,8 @@ CREATE TABLE zipcodedata (
 	PRIMARY KEY(zip)
 );
 
-LOAD DATA LOCAL INFILE 'C:/Users/malthe/Documents/GitHub/BIDD-Gruppe/Assignments/Assignment 4/MeanZIP-3.csv'
+LOAD DATA LOCAL INFILE 'C:/Users/USER/Documents/
+	GitHub/BIDD-Gruppe/Assignments/Assignment 4/MeanZIP-3.csv'
 INTO TABLE zipcodedata
 FIELDS TERMINATED BY ';';
 \end{lstlisting}
