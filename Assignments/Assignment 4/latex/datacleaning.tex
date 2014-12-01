@@ -81,13 +81,6 @@ WHERE NOT EXISTS (
 	SELECT id FROM movie
 	WHERE id = moviegenre.movieId
 );
-
--- zipcodedata
-DELETE FROM zipcodedata
-WHERE NOT EXISTS (
-	SELECT zip FROM zipcode
-	WHERE zip = zipcodedata.zip
-);
 \end{lstlisting}
 \bigskip
 
