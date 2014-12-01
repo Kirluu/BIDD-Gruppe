@@ -10,7 +10,7 @@ See the relevant SQL queries for data cleaning below: \\
 
 \noindent\textbf{Deletion-cleaning} \\
 
-\begin{lstlisting}[language=sql]
+\begin{lstlisting}
 -- user
 DELETE FROM user
 WHERE NOT EXISTS (
@@ -61,7 +61,7 @@ WHERE NOT EXISTS (
 
 \noindent\textbf{Age-value improvements} \\
 
-\begin{lstlisting}[language=sql]
+\begin{lstlisting}
 -- age group (10-17)
 UPDATE user
 SET age=10+FLOOR(RAND()*8)
