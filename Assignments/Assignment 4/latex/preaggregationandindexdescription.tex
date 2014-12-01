@@ -1,1 +1,9 @@
-\textbf{}
+\textbf{Pre-aggregation tables:} \\
+GenreView \\
+One of our views of the data retrievable from the fact table construction is a view based on the genres of the movies that were rated. This gives us the ability to see ratings in relation to the genres of the movies rated. Thus we can say something about what the best rated genre is as well as which zipcode areas have given the most rates of highest average ratings for each genre. \\
+
+UserView \\
+This other view takes a look at ratings from each user's perspective, meaning we can sort this pre-aggregation table to find out for instance which user has casted the most votes on movies of the genre "action". Additionally we can find out which user is the most active overall, or perhaps find out about some interesting users, in the sense that there may for instance some users that were simply created to give a 1 or 5 star rating to a single movie and afterwards never rated a movie again.
+
+\textbf{Indexes created:} \\
+As the assignment simply states to create indexes onto the pre-aggregation tables that we have created, there is nothing much to describe, aside from the fact that we of course have added indexes onto all values in all of our pre-aggregation tables for ease of access of this aggregated data, thus making it aggregated data-retrieval faster in all cases, no matter what the requester may be interested in finding out about the data.
